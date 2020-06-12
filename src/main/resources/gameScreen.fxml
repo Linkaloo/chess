@@ -45,157 +45,157 @@
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
                <image>
-                  <Image url="assets/W.P.png" />
+                  <Image url="@assets/W.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.R.png" />
+                  <Image url="@assets/W.R.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.Kn.png" />
+                  <Image url="@assets/W.Kn.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="85.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.B.png" />
+                  <Image url="@assets/W.B.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="160.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.Q.png" />
+                  <Image url="@assets/W.Q.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="235.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.K.png" />
+                  <Image url="@assets/W.K.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.B.png" />
+                  <Image url="@assets/W.B.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="385.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.Kn.png" />
+                  <Image url="@assets/W.Kn.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="460.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
                <image>
-                  <Image url="assets/W.R.png" />
+                  <Image url="@assets/W.R.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="535.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="assets/B.R.png" />
+                  <Image url="@assets/B.R.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
-                  <Image url="assets/B.Kn.png" />
+                  <Image url="@assets/B.Kn.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="85.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <image>
-                  <Image url="assets/B.B.png" />
+                  <Image url="@assets/B.B.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="160.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                <image>
-                  <Image url="assets/B.Q.png" />
+                  <Image url="@assets/B.Q.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="235.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                <image>
-                  <Image url="assets/B.K.png" />
+                  <Image url="@assets/B.K.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
                <image>
-                  <Image url="assets/B.B.png" />
+                  <Image url="@assets/B.B.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="385.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
                <image>
-                  <Image url="assets/B.Kn.png" />
+                  <Image url="@assets/B.Kn.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="460.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7">
                <image>
-                  <Image url="assets/B.R.png" />
+                  <Image url="@assets/B.R.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="535.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="10.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="85.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="160.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="235.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="310.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="385.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="75.0" fitWidth="70.0" layoutX="460.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
                <image>
-                  <Image url="assets/B.P.png" />
+                  <Image url="@assets/B.P.png" />
                </image>
             </ImageView>
          </children>
