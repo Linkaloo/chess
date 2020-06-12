@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxControllers.GameSetup">
+   <children>
+      <RadioButton layoutX="40.0" layoutY="40.0" mnemonicParsing="false" onAction="#singlePlayerChoice" text="Singleplayer">
+         <toggleGroup>
+            <ToggleGroup fx:id="playChoice" />
+         </toggleGroup>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </RadioButton>
+      <RadioButton layoutX="140.0" layoutY="40.0" mnemonicParsing="false" onAction="#multiPlayerChoice" text="Multiplayer" toggleGroup="$playChoice">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </RadioButton>
+      <Pane fx:id="cpuDif" disable="true" layoutX="30.0" layoutY="70.0" prefHeight="60.0" prefWidth="260.0">
+         <children>
+            <Text layoutX="100.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cpu dif:" wrappingWidth="52.13671875" />
+            <Slider blockIncrement="1.0" layoutX="14.0" layoutY="25.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="231.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+         </children>
+      </Pane>
+      <Button layoutX="498.0" layoutY="361.0" mnemonicParsing="false" onAction="#backToMenuPressed" text="Back to Menu" />
+      <Button layoutX="131.0" layoutY="144.0" mnemonicParsing="false" onAction="#startGame" text="Play" />
+   </children>
+</AnchorPane>
