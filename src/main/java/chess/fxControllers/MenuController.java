@@ -1,4 +1,4 @@
-package fxControllers;
+package chess.fxControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Controller {
+public class MenuController {
 
     @FXML
     public void playPressed(ActionEvent event) throws IOException {

@@ -1,4 +1,4 @@
-package fxControllers;
+package chess.fxControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class GameSetup {
+public class GameSetupController {
 
     @FXML
     private Pane cpuDif;
