@@ -1,5 +1,6 @@
 package chess.fxControllers;
 
+import com.sun.javafx.font.CharToGlyphMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -17,6 +19,9 @@ public class GameSetupController {
 
     @FXML
     private Pane cpuDif;
+
+    @FXML
+    private ToggleGroup playChoice;
 
     public void backToMenuPressed(ActionEvent event) throws IOException {
         Parent MenuParent = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("menu.fxml")));
@@ -37,11 +42,14 @@ public class GameSetupController {
     }
 
     public void startGame(ActionEvent event) throws IOException {
-        Parent gameScreenParent = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("gameScreen.fxml")));
-        Scene gameScreenScene = new Scene(gameScreenParent);
+        if(!(playChoice.getSelectedToggle() == null)){
 
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(gameScreenScene);
-        window.show();
+            Parent gameScreenParent = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("gameScreen.fxml")));
+            Scene gameScreenScene = new Scene(gameScreenParent);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(gameScreenScene);
+            window.show();
+        }
     }
 }
