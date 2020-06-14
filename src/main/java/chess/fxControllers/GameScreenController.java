@@ -25,7 +25,7 @@ public class GameScreenController {
     private GridPane boardGrid;
 
     public void initialize() {
-        Board board = new Board();
+        Board board = new Board(boardGrid);
     }
 
     public void mouseOver(MouseEvent mouseEvent) {

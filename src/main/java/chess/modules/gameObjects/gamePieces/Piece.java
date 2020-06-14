@@ -2,6 +2,8 @@ package chess.modules.gameObjects.gamePieces;
 
 import javafx.scene.image.ImageView;
 
+import java.util.List;
+
 public abstract class Piece {
 
     protected PieceColor pieceColor;
@@ -16,7 +18,7 @@ public abstract class Piece {
     }
 
     public abstract void move();
-    public abstract void checkMove();
+    public abstract List<PieceMove> checkMove();
 
     public int getColumnPos() {
         return columnPos;

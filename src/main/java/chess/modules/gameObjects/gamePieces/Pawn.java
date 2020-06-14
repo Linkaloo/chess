@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.util.List;
 
 public class Pawn extends Piece {
 
@@ -33,8 +34,9 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void checkMove() {
-
+    public List<PieceMove> checkMove() {
+        // TODO check which pawn moves are valid
+        return null;
     }
 
 
