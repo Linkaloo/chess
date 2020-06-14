@@ -18,14 +18,14 @@
    <children>
       <GridPane fx:id="boardGrid" gridLinesVisible="true" onMouseClicked="#mouseClicked" layoutX="50.0" layoutY="50.0" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #bbd5db;">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-          <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" prefWidth="50.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
