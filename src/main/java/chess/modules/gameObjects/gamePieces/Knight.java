@@ -1,8 +1,8 @@
 package chess.modules.gameObjects.gamePieces;
 
 public class Knight extends Piece {
-    public Knight(int columnPos, int rowPos) {
-        super(columnPos, rowPos);
+    public Knight(int columnPos, int rowPos, PieceColor pieceColor) {
+        super(columnPos, rowPos, pieceColor);
     }
 
     @Override

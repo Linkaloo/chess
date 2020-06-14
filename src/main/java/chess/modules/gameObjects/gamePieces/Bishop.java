@@ -2,8 +2,8 @@ package chess.modules.gameObjects.gamePieces;
 
 public class Bishop extends Piece {
 
-    public Bishop(int columnPos, int rowPos) {
-        super(columnPos, rowPos);
+    public Bishop(int columnPos, int rowPos, PieceColor pieceColor) {
+        super(columnPos, rowPos, pieceColor);
     }
 
     @Override

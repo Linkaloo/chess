@@ -1,5 +1,6 @@
 package chess.fxControllers;
 
+import chess.modules.gameObjects.Board;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -23,13 +24,9 @@ public class GameScreenController {
     @FXML
     private GridPane boardGrid;
 
-    /*public void piecePressed(javafx.scene.input.MouseEvent mouseEvent) {
-        DropShadow ds1 = new DropShadow();
-        ds1.setOffsetY(4.0f);
-        ds1.setOffsetX(4.0f);
-        ds1.setColor(Color.CORAL);
-        wPawn8.setEffect(ds1);
-    }*/
+    public void initialize() {
+        Board board = new Board();
+    }
 
     public void mouseOver(MouseEvent mouseEvent) {
 
@@ -46,7 +43,8 @@ public class GameScreenController {
             this.temp = (ImageView) mouseEvent.getTarget();
         else if(mouseEvent.getTarget() instanceof Pane) {
             boardGrid.getChildren().remove(temp);
-            boardGrid.add(temp, GridPane.getColumnIndex((Pane)mouseEvent.getTarget()), GridPane.getRowIndex((Pane)mouseEvent.getTarget()));
+            Integer col = GridPane.getColumnIndex((Pane)mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane)mouseEvent.getTarget());
+            boardGrid.add(temp, col != null ? col : 0, row != null ? row : 0);
         }
 
     }
