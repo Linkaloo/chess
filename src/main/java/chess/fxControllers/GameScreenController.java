@@ -43,7 +43,7 @@ public class GameScreenController {
             if(temp != null) {
                 boardGrid.getChildren().remove(temp);
                 Integer col = GridPane.getColumnIndex((Pane) mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane) mouseEvent.getTarget());
-                boardGrid.add(temp, col != null ? col : 0, row != null ? row : 0);
+                boardGrid.add(temp, col, row);
             }
         }
 
