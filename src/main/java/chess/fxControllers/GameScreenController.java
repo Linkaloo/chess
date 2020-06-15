@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.IOException;
 
+import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
+
 public class GameScreenController {
 
     private int mouseX, mouseY;
@@ -28,11 +30,7 @@ public class GameScreenController {
         Board board = new Board(boardGrid);
     }
 
-    public void mouseOver(MouseEvent mouseEvent) {
-
-    }
-
-    public void mouseClicked(MouseEvent mouseEvent) {
+    public void mousePressed(MouseEvent mouseEvent) {
 //        File file = new File(String.valueOf(getClass().getClassLoader().getResource("assets/B.B.png")));
 //        Image image = new Image(file.getPath());
 //        ImageView imageView = new ImageView();
@@ -42,10 +40,13 @@ public class GameScreenController {
         if(mouseEvent.getTarget() instanceof ImageView)
             this.temp = (ImageView) mouseEvent.getTarget();
         else if(mouseEvent.getTarget() instanceof Pane) {
-            boardGrid.getChildren().remove(temp);
-            Integer col = GridPane.getColumnIndex((Pane)mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane)mouseEvent.getTarget());
-            boardGrid.add(temp, col != null ? col : 0, row != null ? row : 0);
+            if(temp != null) {
+                boardGrid.getChildren().remove(temp);
+                Integer col = GridPane.getColumnIndex((Pane) mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane) mouseEvent.getTarget());
+                boardGrid.add(temp, col != null ? col : 0, row != null ? row : 0);
+            }
         }
+
 
     }
 }

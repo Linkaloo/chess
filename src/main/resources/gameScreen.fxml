@@ -14,7 +14,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" style="-fx-background-color: #808080;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chess.fxControllers.GameScreenController">
    <children>
-      <GridPane fx:id="boardGrid" gridLinesVisible="true" layoutX="50.0" layoutY="50.0" onMouseClicked="#mouseClicked" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #bbd5db;">
+      <GridPane fx:id="boardGrid" gridLinesVisible="true" layoutX="50.0" layoutY="50.0" onMousePressed="#mousePressed" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #bbd5db;">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="50.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" prefWidth="50.0" />
