@@ -4,9 +4,13 @@ import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.Player;
 import chess.modules.gameObjects.gamePieces.Piece;
 import chess.modules.gameObjects.gamePieces.PieceColor;
+import chess.modules.gameObjects.gamePieces.PieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
 
@@ -17,6 +21,8 @@ public class GameController {
     private int turnNumber;
 
     private Board board;
+
+    private List<PieceMove> moves;
 
     @FXML
     private GridPane boardGrid;
@@ -35,6 +41,10 @@ public class GameController {
         playersMove++;
         return board.movePiece(temp, col, row);
 
+    }
+
+    public List<PieceMove> checkLegalMoves(Piece piece) {
+        return new ArrayList<>();
     }
 
     public PieceColor checkTurn() {
