@@ -9,17 +9,12 @@ import java.util.ArrayList;
 
 public class Board {
 
-    public Player player1;
-    public Player player2;
-
     @FXML
     private GridPane boardGrid;
 
     private ArrayList<Piece> pieces;
 
     public Board(GridPane boardGrid) {
-        player1 = new Player(PieceColor.WHITE,true,false);
-        player2 = new Player(PieceColor.BLACK,false,false);
 
         this.boardGrid = boardGrid;
 
@@ -66,11 +61,20 @@ public class Board {
     }
 
     public void movePiece(ImageView temp, Integer col, Integer row) {
-        for(int i = 0; i < pieces.size(); i++) {
-            if(pieces.get(i).getImage().equals(temp)) {
-                pieces.get(i).move(col, row);
+        for (Piece piece : pieces) {
+            if (piece.getImage().equals(temp)) {
+                piece.move(new PieceMove(col, row));
             }
         }
+    }
+
+    public Piece getPieceFromImage(ImageView temp) {
+        int piece = 0;
+        for(int i = 0; i < pieces.size(); i++) {
+            if(pieces.get(i).getImage().equals(temp))
+                piece = i;
+        }
+        return pieces.get(piece);
     }
 
     public void addPiecesToBoard(Piece... pieces) {

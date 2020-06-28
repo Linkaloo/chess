@@ -17,9 +17,9 @@ public abstract class Piece {
         this.rowPos = rowPos;
     }
 
-    public void move(int xPos, int yPos) {
-        columnPos = xPos;
-        rowPos = yPos;
+    public void move(PieceMove move) {
+        columnPos = move.getColumnPos();
+        rowPos = move.getRowPos();
     }
 
     public abstract List<PieceMove> checkMove();
@@ -34,5 +34,9 @@ public abstract class Piece {
 
     public ImageView getImage() {
         return image;
+    }
+
+    public PieceColor getPieceColor() {
+        return pieceColor;
     }
 }
