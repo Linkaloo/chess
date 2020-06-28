@@ -25,11 +25,6 @@ public class King extends Piece {
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public List<PieceMove> checkMove() {
         // TODO check which king moves are valid
         return null;

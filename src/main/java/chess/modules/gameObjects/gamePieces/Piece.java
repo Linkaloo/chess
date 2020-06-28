@@ -17,7 +17,11 @@ public abstract class Piece {
         this.rowPos = rowPos;
     }
 
-    public abstract void move();
+    public void move(int xPos, int yPos) {
+        columnPos = xPos;
+        rowPos = yPos;
+    }
+
     public abstract List<PieceMove> checkMove();
 
     public int getColumnPos() {

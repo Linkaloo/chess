@@ -1,13 +1,15 @@
 package chess.modules.gameObjects;
 
+import chess.modules.gameObjects.gamePieces.PieceColor;
+
 public class Player {
 
-    private boolean isWhite;
+    private PieceColor playerColor;
     private boolean isTurn;
     private boolean hasWon;
 
-    public Player(boolean isWhite, boolean isTurn, boolean hasWon) {
-        this.isWhite = isWhite;
+    public Player(PieceColor playerColor, boolean isTurn, boolean hasWon) {
+        this.playerColor = playerColor;
         this.isTurn = isTurn;
         this.hasWon = hasWon;
     }
@@ -26,5 +28,9 @@ public class Player {
 
     public boolean getHasWon() {
         return hasWon;
+    }
+
+    public PieceColor getColor() {
+        return playerColor;
     }
 }

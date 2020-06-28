@@ -29,11 +29,6 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public List<PieceMove> checkMove() {
         // TODO check which pawn moves are valid
         return null;

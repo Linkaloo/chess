@@ -25,11 +25,6 @@ public class Knight extends Piece {
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public List<PieceMove> checkMove() {
         // TODO check which knight moves are valid
         return null;

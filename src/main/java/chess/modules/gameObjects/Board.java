@@ -2,11 +2,15 @@ package chess.modules.gameObjects;
 
 import chess.modules.gameObjects.gamePieces.*;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 
 public class Board {
+
+    public Player player1;
+    public Player player2;
 
     @FXML
     private GridPane boardGrid;
@@ -14,6 +18,9 @@ public class Board {
     private ArrayList<Piece> pieces;
 
     public Board(GridPane boardGrid) {
+        player1 = new Player(PieceColor.WHITE,true,false);
+        player2 = new Player(PieceColor.BLACK,false,false);
+
         this.boardGrid = boardGrid;
 
         pieces = new ArrayList<>();
@@ -56,6 +63,14 @@ public class Board {
         King king2 = new King(4, 7, PieceColor.WHITE);
         addPiecesToBoard(king1, king2);
 
+    }
+
+    public void movePiece(ImageView temp, Integer col, Integer row) {
+        for(int i = 0; i < pieces.size(); i++) {
+            if(pieces.get(i).getImage().equals(temp)) {
+                pieces.get(i).move(col, row);
+            }
+        }
     }
 
     public void addPiecesToBoard(Piece... pieces) {

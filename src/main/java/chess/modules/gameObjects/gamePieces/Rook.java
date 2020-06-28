@@ -26,11 +26,6 @@ public class Rook extends Piece{
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public List<PieceMove> checkMove() {
         // TODO check which rook moves are valid
         return null;
