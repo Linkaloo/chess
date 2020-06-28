@@ -60,12 +60,25 @@ public class Board {
 
     }
 
-    public void movePiece(ImageView temp, Integer col, Integer row) {
+    public Piece movePiece(ImageView temp, Integer col, Integer row) {
         for (Piece piece : pieces) {
             if (piece.getImage().equals(temp)) {
                 piece.move(new PieceMove(col, row));
+                return checkTakePiece(piece, col, row);
             }
         }
+        return null;
+    }
+
+    public Piece checkTakePiece(Piece piece, Integer col, Integer row) {
+        for(int i = 0; i < pieces.size(); i++) {
+            if(pieces.get(i).getColumnPos() == col && pieces.get(i).getRowPos() == row && pieces.get(i).getPieceColor() != piece.getPieceColor()) {
+                Piece tempPiece = pieces.get(i);
+                pieces.remove(i);
+                return tempPiece;
+            }
+        }
+        return null;
     }
 
     public Piece getPieceFromImage(ImageView temp) {

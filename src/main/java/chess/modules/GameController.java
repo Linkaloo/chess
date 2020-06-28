@@ -2,6 +2,7 @@ package chess.modules;
 
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.Player;
+import chess.modules.gameObjects.gamePieces.Piece;
 import chess.modules.gameObjects.gamePieces.PieceColor;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -30,9 +31,10 @@ public class GameController {
         turnNumber = 1;
     }
 
-    public void movePiece(ImageView temp, Integer col, Integer row) {
-        board.movePiece(temp, col, row);
+    public Piece movePiece(ImageView temp, Integer col, Integer row) {
         playersMove++;
+        return board.movePiece(temp, col, row);
+
     }
 
     public PieceColor checkTurn() {

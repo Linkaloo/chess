@@ -38,7 +38,10 @@ public class GameScreenController {
                 boardGrid.getChildren().remove(temp);
                 Integer col = GridPane.getColumnIndex((Pane) mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane) mouseEvent.getTarget());
                 boardGrid.add(temp, col, row);
-                gameController.movePiece(temp, col, row);
+                Piece tempPiece = gameController.movePiece(temp, col, row);
+                if(tempPiece != null) {
+                    boardGrid.getChildren().remove(tempPiece.getImage());
+                }
                 temp = null;
             }
         }
