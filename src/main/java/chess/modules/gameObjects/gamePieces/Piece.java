@@ -2,7 +2,7 @@ package chess.modules.gameObjects.gamePieces;
 
 import javafx.scene.image.ImageView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public abstract class Piece {
 
@@ -22,7 +22,7 @@ public abstract class Piece {
         rowPos = move.getRowPos();
     }
 
-    public abstract List<PieceMove> checkMove();
+    public abstract ArrayList<PieceMove> getPossibleMoves();
 
     public int getColumnPos() {
         return columnPos;

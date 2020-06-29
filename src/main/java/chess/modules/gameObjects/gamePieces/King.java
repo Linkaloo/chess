@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class King extends Piece {
     public King(int columnPos, int rowPos, PieceColor pieceColor) {
@@ -25,8 +25,9 @@ public class King extends Piece {
     }
 
     @Override
-    public List<PieceMove> checkMove() {
-        // TODO check which king moves are valid
+    public ArrayList<PieceMove> getPossibleMoves() {
+        // TODO check which bishop moves are valid
         return null;
     }
+
 }

@@ -23,10 +23,6 @@ public class MenuController {
         window.show();
 
     }
-
-    public void settingsPressed() {
-
-    }
 }
 
 

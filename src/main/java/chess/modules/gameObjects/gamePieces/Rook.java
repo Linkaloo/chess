@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Rook extends Piece{
 
@@ -26,8 +26,9 @@ public class Rook extends Piece{
     }
 
     @Override
-    public List<PieceMove> checkMove() {
-        // TODO check which rook moves are valid
+    public ArrayList<PieceMove> getPossibleMoves() {
+        // TODO check which bishop moves are valid
         return null;
     }
+
 }

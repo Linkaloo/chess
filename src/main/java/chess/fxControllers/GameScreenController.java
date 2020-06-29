@@ -16,17 +16,16 @@ import java.util.List;
 
 public class GameScreenController {
 
-    private int mouseX, mouseY;
     private Board board;
     private GameController gameController;
     private ImageView temp;
     private List<PieceMove> legalMoves;
     private Pane tempPane;
     private Piece currPiece;
+    private Piece previousPiece;
 
     @FXML
     private GridPane boardGrid;
-
 
     public void initialize() {
         board = new Board(boardGrid);
@@ -45,7 +44,10 @@ public class GameScreenController {
                 this.legalMoves = gameController.checkLegalMoves(currPiece);
                 Integer col = GridPane.getColumnIndex((ImageView) mouseEvent.getTarget()), row = GridPane.getRowIndex((ImageView) mouseEvent.getTarget());
                 tempPane = (Pane)boardGrid.getChildren().get(row * 8 + col);
-                tempPane.setStyle("-fx-background-color:#00FF00;");
+                tempPane.setStyle("-fx-background-color:#97f367;");
+                if(previousPiece != null && currPiece.getColumnPos() != previousPiece.getColumnPos() && currPiece.getRowPos() != previousPiece.getRowPos()) {
+                    
+                }
             }
         }
         else if(mouseEvent.getTarget() instanceof Pane) {
@@ -57,6 +59,7 @@ public class GameScreenController {
                 if(tempPiece != null) {
                     boardGrid.getChildren().remove(tempPiece.getImage());
                 }
+                previousPiece = currPiece;
                 temp = null;
                 tempPane.setStyle(getPaneDefaultColor(tempPane) == PieceColor.BLACK ? "-fx-background-color: #7ebffe;" : "-fx-background-color: #ffffff;");
             }

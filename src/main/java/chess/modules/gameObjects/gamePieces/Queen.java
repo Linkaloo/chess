@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Queen extends Piece {
     public Queen(int columnPos, int rowPos, PieceColor pieceColor) {
@@ -25,8 +25,18 @@ public class Queen extends Piece {
     }
 
     @Override
-    public List<PieceMove> checkMove() {
-        // TODO check which queen moves are valid
+    public ArrayList<PieceMove> getPossibleMoves() {
+        // TODO check which bishop moves are valid
+        ArrayList<PieceMove> pieceMoves = new ArrayList<>();
+
+        if(pieceColor == PieceColor.WHITE) {
+            pieceMoves.add(new PieceMove(columnPos, rowPos - 1));
+        }
+        else {
+            pieceMoves.add(new PieceMove(columnPos, rowPos + 1));
+
+        }
+
         return null;
     }
 }

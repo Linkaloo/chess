@@ -3,17 +3,17 @@ package chess.modules.gameObjects.gamePieces;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
+    private boolean initialMove;
+
     public Pawn(int columnPos, int rowPos, PieceColor pieceColor) {
         super(columnPos, rowPos, pieceColor);
-        
+        initialMove = true;
+
         File file;
         switch (pieceColor) {
             case BLACK: file = new File(String.valueOf(getClass().getClassLoader().getResource("assets/B.P.png")));
@@ -29,10 +29,34 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<PieceMove> checkMove() {
-        // TODO check which pawn moves are valid
-        return null;
+    public ArrayList<PieceMove> getPossibleMoves() {
+        ArrayList<PieceMove> pieceMoves = new ArrayList<>();
+
+        if(pieceColor == PieceColor.WHITE) {
+            pieceMoves.add(new PieceMove(columnPos, rowPos - 1));
+
+            if (initialMove) {
+                pieceMoves.add(new PieceMove(columnPos, rowPos - 2));
+            } else {
+                if (pieceMoves.size() == 2) {
+                    pieceMoves.remove(1);
+                    initialMove = false;
+                }
+            }
+        }
+        else {
+            pieceMoves.add(new PieceMove(columnPos, rowPos + 1));
+
+            if (initialMove) {
+                pieceMoves.add(new PieceMove(columnPos, rowPos + 2));
+            } else {
+                if (pieceMoves.size() == 2) {
+                    pieceMoves.remove(1);
+                    initialMove = false;
+                }
+            }
+        }
+
+        return pieceMoves;
     }
-
-
 }

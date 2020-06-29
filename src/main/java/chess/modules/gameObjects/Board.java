@@ -70,6 +70,20 @@ public class Board {
         return null;
     }
 
+    public boolean checkMove(Piece piece, Integer col, Integer row) {
+        boolean legal = false;
+
+        for(int i = 0; i < piece.getPossibleMoves().size(); i++) {
+            if (col <= piece.getPossibleMoves().get(i).getColumnPos() && row <= piece.getPossibleMoves().get(i).getRowPos())
+                legal = true;
+            else {
+                legal = false;
+                break;
+            }
+        }
+        return legal;
+    }
+
     public Piece checkTakePiece(Piece piece, Integer col, Integer row) {
         for(int i = 0; i < pieces.size(); i++) {
             if(pieces.get(i).getColumnPos() == col && pieces.get(i).getRowPos() == row && pieces.get(i).getPieceColor() != piece.getPieceColor()) {
