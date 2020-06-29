@@ -47,6 +47,10 @@ public class GameController {
         return new ArrayList<>();
     }
 
+    public boolean isLegalMove(PieceMove pieceMove) {
+        return true;
+    }
+
     public PieceColor checkTurn() {
         if(playersMove % 2 == 0) {
             return player1.getColor();
