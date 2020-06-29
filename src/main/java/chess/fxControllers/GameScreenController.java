@@ -50,7 +50,7 @@ public class GameScreenController {
             if(clickedPiece != null) {
                 handlePieceClicked(clickedPiece, clickedPane, col, row);
             }
-            else if(gameController.isLegalMove(tempPieceMove)) {
+            else if(currPiece != null && gameController.isLegalMove(tempPieceMove)) {
                 movePiece(tempPieceMove);
             }
         }
@@ -89,7 +89,7 @@ public class GameScreenController {
 
     private void highlightPanes(Pane... panes) {
         for (Pane pane : panes) {
-            pane.setStyle("-fx-background-color:#00FF00;");
+            pane.setStyle("-fx-background-color:#abee8d;");
         }
     }
 
