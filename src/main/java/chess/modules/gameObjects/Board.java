@@ -111,4 +111,12 @@ public class Board {
         }
     }
 
+    public Piece getPieceOnBoard(int col, int row) {
+        for (Piece piece : pieces) {
+            if(piece.getColumnPos() == col && piece.getRowPos() == row)
+                return piece;
+        }
+        return null;
+    }
+
 }
