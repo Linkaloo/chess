@@ -1,10 +1,13 @@
 package chess.modules.gameObjects.gamePieces;
 
+import chess.modules.gameObjects.Board;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class King extends Piece {
     public King(int columnPos, int rowPos, PieceColor pieceColor) {
@@ -25,9 +28,34 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<PieceMove> getPossibleMoves() {
-        // TODO check which bishop moves are valid
-        return null;
+    public List<PieceMove> getLegalMoves(Board board) {
+        ArrayList<PieceMove> legalMoves = new ArrayList<>();
+        //checks possible moves and stores into legal moves
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+
+
+        return legalMoves;
+    }
+
+    private List<PieceMove> getPossibleMoves(Board board) {
+        ArrayList<PieceMove> possibleMoves = new ArrayList<>();
+
+        possibleMoves.add(new PieceMove(columnPos, rowPos + 1));
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 1));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 1));
+
+        possibleMoves.add(new PieceMove(columnPos, rowPos - 1));
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 1));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 1));
+
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos));
+
+
+        return possibleMoves
+                .stream()
+                .filter(pieceMove -> pieceMove.getColumnPos() >= 0 && pieceMove.getColumnPos() <= 7 && pieceMove.getRowPos() >= 0 && pieceMove.getRowPos() <= 7)
+                .collect(Collectors.toList());
     }
 
 }

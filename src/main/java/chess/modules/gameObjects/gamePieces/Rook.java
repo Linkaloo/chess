@@ -1,10 +1,11 @@
 package chess.modules.gameObjects.gamePieces;
 
+import chess.modules.gameObjects.Board;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Rook extends Piece{
 
@@ -26,7 +27,7 @@ public class Rook extends Piece{
     }
 
     @Override
-    public ArrayList<PieceMove> getPossibleMoves() {
+    public List<PieceMove> getLegalMoves(Board board) {
         // TODO check which bishop moves are valid
         return null;
     }

@@ -6,7 +6,6 @@ import chess.modules.gameObjects.gamePieces.PieceColor;
 import chess.modules.gameObjects.gamePieces.PieceMove;
 import chess.modules.GameController;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -60,7 +59,7 @@ public class GameScreenController {
         if(currPiece == null && clickedPiece.getPieceColor().equals(gameController.checkTurn())) {
             currPiece = clickedPiece;
             highlightedPanes.add(clickedPane);
-            this.legalMoves = gameController.checkLegalMoves(currPiece);
+            this.legalMoves = gameController.getLegalMoves(currPiece);
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(row * 8 + col)));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }
@@ -68,7 +67,7 @@ public class GameScreenController {
             resetBoard();
             currPiece = clickedPiece;
             highlightedPanes.add(clickedPane);
-            this.legalMoves = gameController.checkLegalMoves(currPiece);
+            this.legalMoves = gameController.getLegalMoves(currPiece);
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(row * 8 + col)));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }

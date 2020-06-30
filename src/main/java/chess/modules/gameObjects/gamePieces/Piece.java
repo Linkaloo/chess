@@ -1,8 +1,9 @@
 package chess.modules.gameObjects.gamePieces;
 
+import chess.modules.gameObjects.Board;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Piece {
 
@@ -22,7 +23,11 @@ public abstract class Piece {
         rowPos = move.getRowPos();
     }
 
-    public abstract ArrayList<PieceMove> getPossibleMoves();
+    protected boolean moveCausesCheck(Board board) {
+        return false;
+    }
+
+    public abstract List<PieceMove> getLegalMoves(Board board);
 
     public int getColumnPos() {
         return columnPos;

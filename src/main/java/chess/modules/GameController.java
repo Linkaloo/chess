@@ -43,18 +43,11 @@ public class GameController {
 
     }
 
-    public List<PieceMove> checkLegalMoves(Piece piece) {
-        ArrayList<PieceMove> legalMoves = new ArrayList<>();
-        ArrayList<PieceMove> possibleMoves = piece.getPossibleMoves();
-
+    public List<PieceMove> getLegalMoves(Piece piece) {
+        List<PieceMove> legalMoves;
+        legalMoves = piece.getLegalMoves(board);
         return legalMoves;
     }
-
-    public boolean checkMove(Piece piece, PieceMove possibleMove) {
-        //if(possibleMove.getColumnPos() )
-        return true;
-    }
-
 
     public boolean isLegalMove(PieceMove pieceMove) {
         return true;
