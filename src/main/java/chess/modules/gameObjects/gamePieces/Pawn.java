@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Pawn extends Piece {
 
@@ -38,17 +39,21 @@ public class Pawn extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        ArrayList<PieceMove> legalMoves = new ArrayList<>();
-        //checks possible moves and stores into legal moves
         List<PieceMove> possibleMoves = getPossibleMoves(board);
 
-
-
-        return possibleMoves;
+        return possibleMoves
+                .stream()
+                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
     }
 
-    private void checkMove() {
-
+    private boolean checkMove(PieceMove pieceMove, Board board) {
+        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
+        if(boardPiece == null)
+            return true;
+        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
+            return true;
+        else
+            return false;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {

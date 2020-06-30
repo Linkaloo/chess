@@ -10,8 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class King extends Piece {
+
+    private boolean initialMove;
+
     public King(int columnPos, int rowPos, PieceColor pieceColor) {
         super(columnPos, rowPos, pieceColor);
+        initialMove = true;
 
         File file;
         switch (pieceColor) {
@@ -29,12 +33,27 @@ public class King extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        ArrayList<PieceMove> legalMoves = new ArrayList<>();
-        //checks possible moves and stores into legal moves
         List<PieceMove> possibleMoves = getPossibleMoves(board);
 
+        return possibleMoves
+                .stream()
+                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+    }
 
-        return possibleMoves;
+    private boolean checkMove(PieceMove pieceMove, Board board) {
+        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
+        if(boardPiece == null)
+            return true;
+        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public void move(PieceMove move) {
+        super.move(move);
+        initialMove = false;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
@@ -50,6 +69,11 @@ public class King extends Piece {
 
         possibleMoves.add(new PieceMove(columnPos + 1, rowPos));
         possibleMoves.add(new PieceMove(columnPos - 1, rowPos));
+
+        if(initialMove) {
+            possibleMoves.add(new PieceMove(columnPos + 2, rowPos));
+            possibleMoves.add(new PieceMove(columnPos - 2, rowPos));
+        }
 
         return possibleMoves
                 .stream()

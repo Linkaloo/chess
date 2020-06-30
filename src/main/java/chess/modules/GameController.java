@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameController {
 
@@ -44,13 +45,13 @@ public class GameController {
     }
 
     public List<PieceMove> getLegalMoves(Piece piece) {
-        List<PieceMove> legalMoves;
-        legalMoves = piece.getLegalMoves(board);
-        return legalMoves;
+        return piece.getLegalMoves(board);
     }
 
-    public boolean isLegalMove(PieceMove pieceMove) {
-        return true;
+    public boolean isLegalMove(PieceMove pieceMove, Piece piece) {
+        List<PieceMove> legalMoves = piece.getLegalMoves(board);
+
+        return legalMoves.stream().anyMatch(move -> (move.getColumnPos() == pieceMove.getColumnPos() && move.getRowPos() == pieceMove.getRowPos()));
     }
 
     public PieceColor checkTurn() {

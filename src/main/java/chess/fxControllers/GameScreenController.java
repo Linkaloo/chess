@@ -49,7 +49,7 @@ public class GameScreenController {
             if(clickedPiece != null) {
                 handlePieceClicked(clickedPiece, clickedPane, col, row);
             }
-            else if(currPiece != null && gameController.isLegalMove(tempPieceMove)) {
+            else if(currPiece != null && gameController.isLegalMove(tempPieceMove, currPiece)) {
                 movePiece(tempPieceMove);
             }
         }
@@ -71,7 +71,7 @@ public class GameScreenController {
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }
-        else if(currPiece != null && !clickedPiece.getPieceColor().equals(gameController.checkTurn()) && gameController.isLegalMove(new PieceMove(col, row))) {
+        else if(currPiece != null && !clickedPiece.getPieceColor().equals(gameController.checkTurn()) && gameController.isLegalMove(new PieceMove(col, row), currPiece)) {
             movePiece(new PieceMove(col, row));
         }
     }

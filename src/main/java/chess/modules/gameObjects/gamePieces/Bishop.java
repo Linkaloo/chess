@@ -30,13 +30,21 @@ public class Bishop extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        // TODO check which bishop moves are valid
-        ArrayList<PieceMove> legalMoves = new ArrayList<>();
-        //checks possible moves and stores into legal moves
         List<PieceMove> possibleMoves = getPossibleMoves(board);
 
+        return possibleMoves
+                .stream()
+                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+    }
 
-        return possibleMoves;
+    private boolean checkMove(PieceMove pieceMove, Board board) {
+        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
+        if(boardPiece == null)
+            return true;
+        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
+            return true;
+        else
+            return false;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
