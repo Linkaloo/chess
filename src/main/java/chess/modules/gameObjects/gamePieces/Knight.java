@@ -5,7 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Knight extends Piece {
     public Knight(int columnPos, int rowPos, PieceColor pieceColor) {
@@ -28,7 +30,33 @@ public class Knight extends Piece {
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
         // TODO check which bishop moves are valid
-        return null;
+        ArrayList<PieceMove> legalMoves = new ArrayList<>();
+        //checks possible moves and stores into legal moves
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+
+
+        return possibleMoves;
+    }
+
+    private List<PieceMove> getPossibleMoves(Board board) {
+        ArrayList<PieceMove> possibleMoves = new ArrayList<>();
+
+        possibleMoves.add(new PieceMove(columnPos + 2, rowPos + 1));
+        possibleMoves.add(new PieceMove(columnPos - 2, rowPos + 1));
+
+        possibleMoves.add(new PieceMove(columnPos + 2, rowPos - 1));
+        possibleMoves.add(new PieceMove(columnPos - 2, rowPos - 1));
+
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 2));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 2));
+
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 2));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 2));
+
+        return possibleMoves
+                .stream()
+                .filter(pieceMove -> pieceMove.getColumnPos() >= 0 && pieceMove.getColumnPos() <= 7 && pieceMove.getRowPos() >= 0 && pieceMove.getRowPos() <= 7)
+                .collect(Collectors.toList());
     }
 
 }

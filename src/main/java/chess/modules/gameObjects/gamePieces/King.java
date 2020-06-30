@@ -34,7 +34,7 @@ public class King extends Piece {
         List<PieceMove> possibleMoves = getPossibleMoves(board);
 
 
-        return legalMoves;
+        return possibleMoves;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
@@ -50,7 +50,6 @@ public class King extends Piece {
 
         possibleMoves.add(new PieceMove(columnPos + 1, rowPos));
         possibleMoves.add(new PieceMove(columnPos - 1, rowPos));
-
 
         return possibleMoves
                 .stream()

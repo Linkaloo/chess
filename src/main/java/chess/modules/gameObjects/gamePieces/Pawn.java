@@ -44,7 +44,7 @@ public class Pawn extends Piece {
 
 
 
-        return legalMoves;
+        return possibleMoves;
     }
 
     private void checkMove() {
