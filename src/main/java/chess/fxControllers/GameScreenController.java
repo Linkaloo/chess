@@ -44,15 +44,14 @@ public class GameScreenController {
             if(legalMoves.contains(move)) {
                 boardGrid.getChildren().removeAll(promotionPieces.stream().map(Piece::getImage).collect(Collectors.toList()));
                 Piece clickedPiece = promotionPieces.stream().filter(piece -> piece.getRowPos() == move.getRowPos()).findFirst().orElse(new Queen(0, 0, PieceColor.BLACK));
-                boardGrid.getChildren().remove(clickedPiece.getImage());
                 clickedPiece.setRowPos(currPiece.getRowPos());
                 board.addPiecesToBoard(clickedPiece);
 
                 isPawnPromoting = false;
                 this.promotionPieces.clear();
                 resetBoard();
-                return;
             }
+            return;
         }
 
         if(mouseEvent.getTarget() instanceof ImageView) {
@@ -121,6 +120,7 @@ public class GameScreenController {
             Piece tempBishop = new Bishop(currPiece.getColumnPos(), currPiece.getRowPos() + direction * 3, currPiece.getPieceColor());
             promotionPieces.addAll(Arrays.asList(tempQueen, tempBishop, tempKnight, tempRook));
             boardGrid.getChildren().remove(currPiece.getImage());
+            board.removePieceFromBoard(currPiece);
             boardGrid.add(tempQueen.getImage(), tempQueen.getColumnPos(), tempQueen.getRowPos());
             boardGrid.add(tempRook.getImage(), tempRook.getColumnPos(), tempRook.getRowPos());
             boardGrid.add(tempKnight.getImage(), tempKnight.getColumnPos(), tempKnight.getRowPos());
@@ -133,7 +133,6 @@ public class GameScreenController {
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
             isPawnPromoting = true;
-            board.removePieceFromBoard(currPiece);
             this.currPiece = currPiece;
         }
     }
