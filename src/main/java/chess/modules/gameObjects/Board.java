@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -70,20 +71,6 @@ public class Board {
         return null;
     }
 
-   /* public boolean checkMove(Piece piece, Integer col, Integer row) {
-        boolean legal = false;
-
-        for(int i = 0; i < piece.getLegalMoves().size(); i++) {
-            if (col <= piece.getLegalMoves().get(i).getColumnPos() && row <= piece.getLegalMoves().get(i).getRowPos())
-                legal = true;
-            else {
-                legal = false;
-                break;
-            }
-        }
-        return legal;
-    }*/
-
     public Piece checkTakePiece(Piece piece, Integer col, Integer row) {
         for(int i = 0; i < pieces.size(); i++) {
             if(pieces.get(i).getColumnPos() == col && pieces.get(i).getRowPos() == row && pieces.get(i).getPieceColor() != piece.getPieceColor()) {
@@ -93,6 +80,19 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public Piece promotePawnToNewPiece(Piece currPiece) {
+        int pawnIndex = -1;
+
+        for (int i = 0; i < pieces.size(); i++) {
+            if(pieces.get(i).equals(currPiece))
+                pawnIndex = i;
+        }
+
+        pieces.remove(pawnIndex);
+        pieces.add(new Queen(currPiece.getColumnPos(), currPiece.getRowPos(),currPiece.getPieceColor()));
+        return getPieceOnBoard(currPiece.getColumnPos(), currPiece.getRowPos());
     }
 
     public Piece getPieceFromImage(ImageView temp) {

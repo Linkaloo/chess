@@ -1,6 +1,7 @@
 package chess.fxControllers;
 
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.gamePieces.Pawn;
 import chess.modules.gameObjects.gamePieces.Piece;
 import chess.modules.gameObjects.gamePieces.PieceColor;
 import chess.modules.gameObjects.gamePieces.PieceMove;
@@ -80,10 +81,20 @@ public class GameScreenController {
         boardGrid.getChildren().remove(currPiece.getImage());
         boardGrid.add(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
         Piece tempPiece = gameController.movePiece(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
+        if(currPiece instanceof Pawn)
+            handlePawnPromotion(currPiece);
         if(tempPiece != null) {
             boardGrid.getChildren().remove(tempPiece.getImage());
         }
         resetBoard();
+    }
+
+    private void handlePawnPromotion(Piece currPiece) {
+        if(gameController.isPawnPromoted((Pawn)currPiece)) {
+            Piece newPiece = board.promotePawnToNewPiece(currPiece);
+            boardGrid.getChildren().remove(currPiece.getImage());
+            boardGrid.add(newPiece.getImage(), newPiece.getColumnPos(), newPiece.getRowPos());
+        }
     }
 
     private void highlightPanes(Pane... panes) {

@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 public class Pawn extends Piece {
 
     private boolean initialMove;
+    private boolean promoted;
 
     public Pawn(int columnPos, int rowPos, PieceColor pieceColor) {
         super(columnPos, rowPos, pieceColor);
         initialMove = true;
+        promoted = false;
 
         File file;
         switch (pieceColor) {
@@ -31,10 +33,18 @@ public class Pawn extends Piece {
         super.image.setImage(imageFile);
     }
 
+    public boolean isPromoted() {
+        return promoted;
+    }
+
     @Override
     public void move(PieceMove move) {
         super.move(move);
         initialMove = false;
+
+        if(pieceColor == PieceColor.WHITE && rowPos == 0)
+            promoted = true;
+        else promoted = pieceColor == PieceColor.BLACK && rowPos == 7;
     }
 
     @Override
