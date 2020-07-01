@@ -37,6 +37,14 @@ public abstract class Piece {
         return rowPos;
     }
 
+    public void setColumnPos(int columnPos) {
+        this.columnPos = columnPos;
+    }
+
+    public void setRowPos(int rowPos) {
+        this.rowPos = rowPos;
+    }
+
     public ImageView getImage() {
         return image;
     }
