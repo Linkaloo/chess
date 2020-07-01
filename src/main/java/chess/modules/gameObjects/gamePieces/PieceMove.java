@@ -25,4 +25,14 @@ public class PieceMove {
     public int getRowPos() {
         return rowPos;
     }
+
+    @Override
+    public boolean equals(Object pieceMove) {
+        if(pieceMove == this)
+            return true;
+        else if(!(pieceMove instanceof PieceMove))
+            return false;
+        else
+            return ((PieceMove) pieceMove).columnPos == this.columnPos && ((PieceMove) pieceMove).rowPos == this.rowPos;
+    }
 }

@@ -92,6 +92,7 @@ public class Board {
 
         pieces.remove(pawnIndex);
         pieces.add(new Queen(currPiece.getColumnPos(), currPiece.getRowPos(),currPiece.getPieceColor()));
+        this.pieces.remove(currPiece);
         return getPieceOnBoard(currPiece.getColumnPos(), currPiece.getRowPos());
     }
 
@@ -102,6 +103,10 @@ public class Board {
                 piece = i;
         }
         return pieces.get(piece);
+    }
+
+    public void removePieceFromBoard(Piece piece) {
+        this.pieces.remove(piece);
     }
 
     public void addPiecesToBoard(Piece... pieces) {
