@@ -2,9 +2,7 @@ package chess.modules;
 
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.Player;
-import chess.modules.gameObjects.gamePieces.Piece;
-import chess.modules.gameObjects.gamePieces.PieceColor;
-import chess.modules.gameObjects.gamePieces.PieceMove;
+import chess.modules.gameObjects.gamePieces.*;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -52,6 +50,10 @@ public class GameController {
         List<PieceMove> legalMoves = piece.getLegalMoves(board);
 
         return legalMoves.stream().anyMatch(move -> (move.getColumnPos() == pieceMove.getColumnPos() && move.getRowPos() == pieceMove.getRowPos()));
+    }
+
+    public boolean isPawnPromoted(Pawn pawn) {
+        return pawn.isPromoted();
     }
 
     public PieceColor checkTurn() {

@@ -34,17 +34,27 @@ public class Rook extends Piece{
 
         return possibleMoves
                 .stream()
-                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+                .filter(pieceMove -> checkMove(pieceMove, board))
+                .collect(Collectors.toList());
     }
 
+
     private boolean checkMove(PieceMove pieceMove, Board board) {
+        boolean moveIsBlocked = false;
         Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
-        if(boardPiece == null)
+        moveIsBlocked = checkBlocked(pieceMove, boardPiece);
+
+        if(boardPiece == null) {
             return true;
-        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
+        }
+        else if(boardPiece.getPieceColor() != pieceColor)
             return true;
         else
             return false;
+    }
+
+    private boolean checkBlocked(PieceMove pieceMove, Piece boardPiece) {
+        return true;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
