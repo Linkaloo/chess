@@ -29,38 +29,106 @@ public class Queen extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-
-        return possibleMoves
-                .stream()
-                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+        return getPossibleMoves(board);
     }
 
-    private boolean checkMove(PieceMove pieceMove, Board board) {
-        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
-        if(boardPiece == null)
-            return true;
-        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
-            return true;
-        else
-            return false;
+    private boolean moveIsBlocked(PieceMove testMove, Board board) {
+        Piece pieceOnBoard = board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos());
+        return pieceOnBoard != null;
     }
+
 
     private List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
+        boolean isBlocked = false;
+        int moveColumn = columnPos;
+        int moveRow = rowPos;
+        PieceMove testMove;
 
-        for(int i = 1; i < 8; i++) {
-            possibleMoves.add(new PieceMove(columnPos + i, rowPos));
-            possibleMoves.add(new PieceMove(columnPos - i, rowPos));
+        while(!isBlocked && moveColumn >= 0 && moveRow >= 0) {
+            testMove = new PieceMove(moveColumn - 1, moveRow - 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn--;
+            moveRow--;
+        }
 
-            possibleMoves.add(new PieceMove(columnPos, rowPos + i));
-            possibleMoves.add(new PieceMove(columnPos , rowPos - i));
 
-            possibleMoves.add(new PieceMove(columnPos + i, rowPos + i));
-            possibleMoves.add(new PieceMove(columnPos - i, rowPos + i));
+        moveColumn = columnPos;
+        moveRow = rowPos;
+        isBlocked = false;
+        while(!isBlocked && moveColumn <= 7 && moveRow >= 0) {
+            testMove = new PieceMove(moveColumn + 1, moveRow - 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn++;
+            moveRow--;
+        }
 
-            possibleMoves.add(new PieceMove(columnPos + i, rowPos - i));
-            possibleMoves.add(new PieceMove(columnPos - i, rowPos - i));
+        moveColumn = columnPos;
+        moveRow = rowPos;
+        isBlocked = false;
+        while(!isBlocked && moveColumn >= 0 && moveRow <= 7) {
+            testMove = new PieceMove(moveColumn - 1, moveRow + 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn--;
+            moveRow++;
+        }
+
+        moveColumn = columnPos;
+        moveRow = rowPos;
+        isBlocked = false;
+        while(!isBlocked && moveColumn <= 7 && moveRow <= 7) {
+            testMove = new PieceMove(moveColumn + 1, moveRow + 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn++;
+            moveRow++;
+        }
+
+        moveRow = rowPos;
+        isBlocked = false;
+        while(!isBlocked && moveRow >= 0) {
+            testMove = new PieceMove(columnPos, moveRow - 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveRow--;
+        }
+
+        moveRow = rowPos;
+        isBlocked = false;
+        while(!isBlocked && moveRow <= 7) {
+            testMove = new PieceMove(columnPos, moveRow + 1);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveRow++;
+        }
+
+        moveColumn = columnPos;
+        isBlocked = false;
+        while(!isBlocked && moveColumn >= 0) {
+            testMove = new PieceMove(moveColumn - 1, rowPos);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn--;
+        }
+
+        moveColumn = columnPos;
+        isBlocked = false;
+        while(!isBlocked && moveColumn <= 7) {
+            testMove = new PieceMove(moveColumn + 1, rowPos);
+            isBlocked = moveIsBlocked(testMove, board);
+            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+                possibleMoves.add(testMove);
+            moveColumn++;
         }
 
         return possibleMoves
