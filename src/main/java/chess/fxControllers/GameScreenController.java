@@ -101,8 +101,9 @@ public class GameScreenController {
         boardGrid.getChildren().remove(currPiece.getImage());
         boardGrid.add(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
         Piece tempPiece = gameController.movePiece(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
-        if(currPiece instanceof Pawn)
+        if(currPiece instanceof Pawn) {
             handlePawnPromotion(currPiece);
+        }
         else
             resetBoard();
         if(tempPiece != null) {

@@ -37,14 +37,12 @@ public class Rook extends Piece{
         return board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()) != null;
     }
 
-
     private List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
         boolean isBlocked = false;
         int moveColumn = columnPos;
         int moveRow = rowPos;
         PieceMove testMove;
-
 
         while(!isBlocked && moveRow >= 0) {
             testMove = new PieceMove(columnPos, moveRow - 1);

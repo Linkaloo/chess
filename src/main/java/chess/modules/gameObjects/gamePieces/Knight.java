@@ -29,37 +29,67 @@ public class Knight extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-
-        return possibleMoves
-                .stream()
-                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+        return getPossibleMoves(board);
     }
 
-    private boolean checkMove(PieceMove pieceMove, Board board) {
-        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
-        if(boardPiece == null)
-            return true;
-        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
-            return true;
-        else
-            return false;
+
+    private boolean moveIsBlocked(PieceMove testMove, Board board) {
+        Piece pieceOnBoard = board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos());
+        return pieceOnBoard != null;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
+        boolean isBlocked;
+        PieceMove testMove;
 
-        possibleMoves.add(new PieceMove(columnPos + 2, rowPos + 1));
-        possibleMoves.add(new PieceMove(columnPos - 2, rowPos + 1));
+        testMove = new PieceMove(columnPos + 2, rowPos + 1);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
 
-        possibleMoves.add(new PieceMove(columnPos + 2, rowPos - 1));
-        possibleMoves.add(new PieceMove(columnPos - 2, rowPos - 1));
+        testMove = new PieceMove(columnPos - 2, rowPos + 1);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
 
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 2));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 2));
+        testMove = new PieceMove(columnPos + 2, rowPos - 1);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
 
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 2));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 2));
+        testMove = new PieceMove(columnPos - 2, rowPos - 1);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
+
+        testMove = new PieceMove(columnPos + 1, rowPos + 2);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
+
+        testMove = new PieceMove(columnPos - 1, rowPos + 2);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
+
+        testMove = new PieceMove(columnPos + 1, rowPos - 2);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
+
+        testMove = new PieceMove(columnPos - 1, rowPos - 2);
+        isBlocked = moveIsBlocked(testMove, board);
+        if((testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) &&
+                (!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor))))
+            possibleMoves.add(testMove);
 
         return possibleMoves
                 .stream()

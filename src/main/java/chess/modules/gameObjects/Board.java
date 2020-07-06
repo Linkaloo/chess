@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -82,20 +83,6 @@ public class Board {
         return null;
     }
 
-    public Piece promotePawnToNewPiece(Piece currPiece) {
-        int pawnIndex = -1;
-
-        for (int i = 0; i < pieces.size(); i++) {
-            if(pieces.get(i).equals(currPiece))
-                pawnIndex = i;
-        }
-
-        pieces.remove(pawnIndex);
-        pieces.add(new Queen(currPiece.getColumnPos(), currPiece.getRowPos(),currPiece.getPieceColor()));
-        this.pieces.remove(currPiece);
-        return getPieceOnBoard(currPiece.getColumnPos(), currPiece.getRowPos());
-    }
-
     public Piece getPieceFromImage(ImageView temp) {
         int piece = 0;
         for(int i = 0; i < pieces.size(); i++) {
@@ -124,4 +111,7 @@ public class Board {
         return null;
     }
 
+    public List<Piece> getPawns(PieceColor pieceColor) {
+        return  pieces.stream().filter(piece -> piece.getPieceColor().equals(pieceColor) && piece instanceof Pawn).collect(Collectors.toList());
+    }
 }
