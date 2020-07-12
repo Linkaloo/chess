@@ -111,7 +111,7 @@ public class Board {
         return null;
     }
 
-    public List<Piece> getPawns(PieceColor pieceColor) {
-        return  pieces.stream().filter(piece -> piece.getPieceColor().equals(pieceColor) && piece instanceof Pawn).collect(Collectors.toList());
+    public List<Pawn> getPawns(PieceColor pieceColor) {
+        return  pieces.stream().filter(piece -> piece instanceof Pawn && piece.getPieceColor().equals(pieceColor)).map(piece -> (Pawn) piece).collect(Collectors.toList());
     }
 }

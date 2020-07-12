@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,16 +97,34 @@ public class GameScreenController {
     }
 
     private void movePiece(PieceMove pieceMove) {
+        PieceMove oldPos = new PieceMove(currPiece.getColumnPos(), currPiece.getRowPos());
+        Piece clickedPiece = currPiece;
         boardGrid.getChildren().remove(currPiece.getImage());
         boardGrid.add(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
         Piece tempPiece = gameController.movePiece(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
         if(currPiece instanceof Pawn) {
+            handlePawnEnpassant(oldPos, currPiece);
             handlePawnPromotion(currPiece);
         }
         else
             resetBoard();
         if(tempPiece != null) {
             boardGrid.getChildren().remove(tempPiece.getImage());
+        }
+        gameController.endOfTurn(clickedPiece.getPieceColor());
+    }
+
+    private void handlePawnEnpassant(PieceMove oldPos, Piece currPiece) { //problem with forward pawn still getting killed
+        Piece tempPiece = board.getPieceOnBoard(oldPos.getColumnPos() + 1, oldPos.getRowPos());
+        Piece tempPiece1 = board.getPieceOnBoard(oldPos.getColumnPos() - 1, oldPos.getRowPos());
+
+        if(tempPiece instanceof Pawn && currPiece.getPieceColor() != tempPiece.getPieceColor() && ((Pawn) tempPiece).isEnpassantable() && currPiece.getColumnPos() == tempPiece.getColumnPos()) {
+            boardGrid.getChildren().remove(tempPiece.getImage());
+            board.removePieceFromBoard(tempPiece);
+        }
+        else if(tempPiece1 instanceof Pawn && currPiece.getPieceColor() != tempPiece1.getPieceColor() && ((Pawn) tempPiece1).isEnpassantable() && currPiece.getColumnPos() == tempPiece1.getColumnPos()) {
+            boardGrid.getChildren().remove(tempPiece1.getImage());
+            board.removePieceFromBoard(tempPiece1);
         }
     }
 

@@ -1,5 +1,6 @@
 package chess.modules.gameObjects.gamePieces;
 
+import chess.modules.GameController;
 import chess.modules.gameObjects.Board;
 import javafx.scene.image.ImageView;
 
@@ -23,7 +24,7 @@ public abstract class Piece {
         rowPos = move.getRowPos();
     }
 
-    protected boolean moveCausesCheck(Board board) {
+    protected boolean moveCausesCheck(Board board, GameController gameController) {
         return false;
     }
 
