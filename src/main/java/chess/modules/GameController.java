@@ -21,8 +21,6 @@ public class GameController {
 
     private Board board;
 
-    private List<PieceMove> moves;
-
     @FXML
     private GridPane boardGrid;
 
@@ -42,6 +40,23 @@ public class GameController {
 
     }
 
+    public void updatePawnsEnpassant() {
+        List<Pawn> whitePawns = board.getPawns(PieceColor.WHITE);
+        List<Pawn> blackPawns = board.getPawns(PieceColor.BLACK);
+
+        if(playersMove % 2 == 0) {
+            whitePawns.forEach(pawn -> pawn.setEnpassantable(false));
+        }
+        if(playersMove % 2 == 1) {
+            blackPawns.forEach(pawn -> pawn.setEnpassantable(false));
+        }
+    }
+
+    public void endOfTurn(PieceColor pieceColor) {
+        if(pieceColor.equals(PieceColor.BLACK))
+            turnNumber++;
+    }
+
     public List<PieceMove> getLegalMoves(Piece piece) {
         return piece.getLegalMoves(board);
     }
@@ -58,9 +73,11 @@ public class GameController {
 
     public PieceColor checkTurn() {
         if(playersMove % 2 == 0) {
+            updatePawnsEnpassant();
             return player1.getColor();
         }
         else {
+            updatePawnsEnpassant();
             return player2.getColor();
         }
     }
