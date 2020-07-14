@@ -2,6 +2,10 @@ package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.GameController;
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
+import chess.modules.gameObjects.pieceMove.PawnInitialMove;
+import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -62,7 +66,9 @@ public class Pawn extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        return getPossibleMoves(board);
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
+        return possibleMoves;
     }
 
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
@@ -73,54 +79,74 @@ public class Pawn extends Piece {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
 
         if (pieceColor.equals(PieceColor.WHITE) && rowPos > 0) {
+
             Piece rightPiece = board.getPieceOnBoard(columnPos + 1, rowPos - 1);
             Piece leftPiece = board.getPieceOnBoard(columnPos - 1, rowPos - 1);
 
             Piece rightPawn = board.getPieceOnBoard(columnPos + 1, rowPos);
             Piece leftPawn = board.getPieceOnBoard(columnPos - 1, rowPos);
 
-            PieceMove testMove = new PieceMove(columnPos, rowPos - 1);
+            PieceMove testMove = new PieceMove(columnPos, rowPos - 1, this);
             if(!moveIsBlocked(testMove, board))
                 possibleMoves.add(testMove);
 
             if (initialMove && !moveIsBlocked(testMove, board)) {
-                testMove = new PieceMove(columnPos, rowPos - 2);
+                testMove = new PieceMove(columnPos, rowPos - 2, this);
                 if(!moveIsBlocked(testMove, board))
-                    possibleMoves.add(testMove);
+                    possibleMoves.add(new PawnInitialMove(testMove.getColumnPos(), testMove.getRowPos(), this));
             }
 
 
-            if (columnPos >= 0 && rightPiece != null && !rightPiece.getPieceColor().equals(pieceColor) || (rightPawn instanceof Pawn && ((Pawn) rightPawn).isEnpassantable())) {
-                possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 1));
+            if (columnPos >= 0 && rightPiece != null) {
+                possibleMoves.add(new TakePieceMove(columnPos + 1, rowPos - 1, this, rightPiece));
             }
 
-            if (columnPos <= 7 && leftPiece != null && !leftPiece.getPieceColor().equals(pieceColor) || (leftPawn instanceof Pawn && ((Pawn) leftPawn).isEnpassantable())) {
-                possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 1));
+            if(rightPawn instanceof Pawn && ((Pawn) rightPawn).isEnpassantable()) {
+                possibleMoves.add(new EnPassantPieceMove(columnPos + 1, rowPos - 1, this, (Pawn) rightPawn));
             }
+
+            if (columnPos <= 7 && leftPiece != null) {
+                possibleMoves.add(new TakePieceMove(columnPos - 1, rowPos - 1, this, leftPiece));
+            }
+
+            if(leftPawn instanceof Pawn && ((Pawn) leftPawn).isEnpassantable()) {
+                possibleMoves.add(new EnPassantPieceMove(columnPos - 1, rowPos - 1, this, (Pawn) leftPawn));
+            }
+
         } else if (pieceColor.equals(PieceColor.BLACK) && rowPos < 7) {
+
             Piece rightPiece = board.getPieceOnBoard(columnPos + 1, rowPos + 1);
             Piece leftPiece = board.getPieceOnBoard(columnPos - 1, rowPos + 1);
 
             Piece rightPawn = board.getPieceOnBoard(columnPos + 1, rowPos);
             Piece leftPawn = board.getPieceOnBoard(columnPos - 1, rowPos);
 
-            PieceMove testMove = new PieceMove(columnPos, rowPos + 1);
+            PieceMove testMove = new PieceMove(columnPos, rowPos + 1, this);
             if(!moveIsBlocked(testMove, board))
                 possibleMoves.add(testMove);
 
             if (initialMove && !moveIsBlocked(testMove, board)) {
-                testMove = new PieceMove(columnPos, rowPos + 2);
+                testMove = new PieceMove(columnPos, rowPos + 2, this);
                 if(!moveIsBlocked(testMove, board))
-                    possibleMoves.add(testMove);
+                    possibleMoves.add(new PawnInitialMove(testMove.getColumnPos(), testMove.getRowPos(), this));
             }
 
-            if (columnPos >= 0 && rightPiece != null && !rightPiece.getPieceColor().equals(pieceColor) || (rightPawn instanceof Pawn && ((Pawn) rightPawn).isEnpassantable())) {
-                possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 1));
+            if (columnPos >= 0 && rightPiece != null) {
+                possibleMoves.add(new TakePieceMove(columnPos + 1, rowPos + 1, this, rightPiece));
             }
 
-            if (columnPos <= 7 && leftPiece != null && !leftPiece.getPieceColor().equals(pieceColor) || (leftPawn instanceof Pawn && ((Pawn) leftPawn).isEnpassantable())) {
-                possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 1));
+            if(rightPawn instanceof Pawn && ((Pawn) rightPawn).isEnpassantable()) {
+                possibleMoves.add(new EnPassantPieceMove(columnPos + 1, rowPos + 1, this, (Pawn) rightPawn));
             }
+
+            if (columnPos <= 7 && leftPiece != null) {
+                possibleMoves.add(new TakePieceMove(columnPos - 1, rowPos + 1, this, leftPiece));
+            }
+
+            if(leftPawn instanceof Pawn && ((Pawn) leftPawn).isEnpassantable()) {
+                possibleMoves.add(new EnPassantPieceMove(columnPos - 1, rowPos + 1, this, (Pawn) leftPawn));
+            }
+
         }
         return possibleMoves;
     }

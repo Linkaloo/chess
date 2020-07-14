@@ -3,6 +3,9 @@ package chess.fxControllers;
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.gamePieces.*;
 import chess.modules.GameController;
+import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
+import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -64,18 +67,21 @@ public class GameScreenController {
             Integer col = GridPane.getColumnIndex((Pane) mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane) mouseEvent.getTarget());
             Pane clickedPane = (Pane) mouseEvent.getTarget();
             Piece clickedPiece = board.getPieceOnBoard(col, row);
-            PieceMove tempPieceMove = new PieceMove(col, row);
+            PieceMove tempPieceMove = this.gameController.getLegalMove(row, col);
 
             if(clickedPiece != null) {
                 handlePieceClicked(clickedPiece, clickedPane, col, row);
             }
-            else if(currPiece != null && gameController.isLegalMove(tempPieceMove, currPiece)) {
+            else if(currPiece != null && tempPieceMove != null) {
                 movePiece(tempPieceMove);
             }
         }
     }
 
     private void handlePieceClicked(Piece clickedPiece, Pane clickedPane, int col, int row) {
+
+        PieceMove pieceMove = gameController.getLegalMove(row, col);
+
         if(currPiece == null && clickedPiece.getPieceColor().equals(gameController.checkTurn())) {
             currPiece = clickedPiece;
             highlightedPanes.add(clickedPane);
@@ -91,41 +97,33 @@ public class GameScreenController {
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }
-        else if(currPiece != null && !clickedPiece.getPieceColor().equals(gameController.checkTurn()) && gameController.isLegalMove(new PieceMove(col, row), currPiece)) {
-            movePiece(new PieceMove(col, row));
+        else if(currPiece != null && !clickedPiece.getPieceColor().equals(gameController.checkTurn()) && pieceMove != null) {
+            movePiece(pieceMove);
         }
     }
 
     private void movePiece(PieceMove pieceMove) {
-        PieceMove oldPos = new PieceMove(currPiece.getColumnPos(), currPiece.getRowPos());
-        Piece clickedPiece = currPiece;
+
+        Piece currPiece = pieceMove.getCurrPiece();
+
         boardGrid.getChildren().remove(currPiece.getImage());
         boardGrid.add(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
-        Piece tempPiece = gameController.movePiece(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
+        gameController.movePiece(pieceMove);
+
+        if(pieceMove instanceof EnPassantPieceMove) {
+            boardGrid.getChildren().remove(((EnPassantPieceMove)pieceMove).getOpponentPawn().getImage());
+            board.removePieceFromBoard(((EnPassantPieceMove) pieceMove).getOpponentPawn());
+        }
+        else if(pieceMove instanceof TakePieceMove) {
+            boardGrid.getChildren().remove(((TakePieceMove) pieceMove).getTakePiece().getImage());
+            board.removePieceFromBoard(((TakePieceMove) pieceMove).getTakePiece());
+        }
+
         if(currPiece instanceof Pawn) {
-            handlePawnEnpassant(oldPos, currPiece);
             handlePawnPromotion(currPiece);
         }
         else
             resetBoard();
-        if(tempPiece != null) {
-            boardGrid.getChildren().remove(tempPiece.getImage());
-        }
-        gameController.endOfTurn(clickedPiece.getPieceColor());
-    }
-
-    private void handlePawnEnpassant(PieceMove oldPos, Piece currPiece) { //problem with forward pawn still getting killed
-        Piece tempPiece = board.getPieceOnBoard(oldPos.getColumnPos() + 1, oldPos.getRowPos());
-        Piece tempPiece1 = board.getPieceOnBoard(oldPos.getColumnPos() - 1, oldPos.getRowPos());
-
-        if(tempPiece instanceof Pawn && currPiece.getPieceColor() != tempPiece.getPieceColor() && ((Pawn) tempPiece).isEnpassantable() && currPiece.getColumnPos() == tempPiece.getColumnPos()) {
-            boardGrid.getChildren().remove(tempPiece.getImage());
-            board.removePieceFromBoard(tempPiece);
-        }
-        else if(tempPiece1 instanceof Pawn && currPiece.getPieceColor() != tempPiece1.getPieceColor() && ((Pawn) tempPiece1).isEnpassantable() && currPiece.getColumnPos() == tempPiece1.getColumnPos()) {
-            boardGrid.getChildren().remove(tempPiece1.getImage());
-            board.removePieceFromBoard(tempPiece1);
-        }
     }
 
     private void handlePawnPromotion(Piece currPiece) {

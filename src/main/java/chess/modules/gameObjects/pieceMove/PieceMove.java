@@ -1,13 +1,23 @@
-package chess.modules.gameObjects.gamePieces;
+package chess.modules.gameObjects.pieceMove;
+
+
+import chess.modules.gameObjects.gamePieces.Piece;
 
 public class PieceMove {
 
     private int columnPos;
     private int rowPos;
+    private Piece currPiece;
 
     public PieceMove(int columnPos, int rowPos) {
         this.columnPos = columnPos;
         this.rowPos = rowPos;
+    }
+
+    public PieceMove(int columnPos, int rowPos, Piece piece) {
+        this.columnPos = columnPos;
+        this.rowPos = rowPos;
+        this.currPiece = piece;
     }
 
     public void setColumnPos(int columnPos) {
@@ -24,6 +34,10 @@ public class PieceMove {
 
     public int getRowPos() {
         return rowPos;
+    }
+
+    public Piece getCurrPiece() {
+        return currPiece;
     }
 
     @Override
