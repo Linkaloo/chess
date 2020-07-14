@@ -3,13 +3,13 @@ package chess.modules;
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.Player;
 import chess.modules.gameObjects.gamePieces.*;
+import chess.modules.gameObjects.pieceMove.PieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameController {
 
@@ -20,6 +20,8 @@ public class GameController {
     private int turnNumber;
 
     private Board board;
+
+    private List<PieceMove> legalMoves = new ArrayList<>();
 
     @FXML
     private GridPane boardGrid;
@@ -34,9 +36,9 @@ public class GameController {
         turnNumber = 1;
     }
 
-    public Piece movePiece(ImageView temp, Integer col, Integer row) {
+    public void movePiece(PieceMove pieceMove) {
         playersMove++;
-        return board.movePiece(temp, col, row);
+        board.movePiece(pieceMove);
 
     }
 
@@ -52,19 +54,17 @@ public class GameController {
         }
     }
 
-    public void endOfTurn(PieceColor pieceColor) {
-        if(pieceColor.equals(PieceColor.BLACK))
-            turnNumber++;
+    public List<PieceMove> getLegalMoves(Piece piece) {
+        this.legalMoves = piece.getLegalMoves(board);
+        return this.legalMoves;
     }
 
-    public List<PieceMove> getLegalMoves(Piece piece) {
-        return piece.getLegalMoves(board);
+    public PieceMove getLegalMove(int row, int col) {
+        return this.legalMoves.stream().filter(move -> move.getRowPos() == row && move.getColumnPos() == col).findFirst().orElse(null);
     }
 
     public boolean isLegalMove(PieceMove pieceMove, Piece piece) {
-        List<PieceMove> legalMoves = piece.getLegalMoves(board);
-
-        return legalMoves.stream().anyMatch(move -> (move.getColumnPos() == pieceMove.getColumnPos() && move.getRowPos() == pieceMove.getRowPos()));
+        return this.legalMoves.stream().anyMatch(move -> (move.getColumnPos() == pieceMove.getColumnPos() && move.getRowPos() == pieceMove.getRowPos()));
     }
 
     public boolean isPawnPromoted(Pawn pawn) {

@@ -2,6 +2,7 @@ package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.GameController;
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.pieceMove.PieceMove;
 import javafx.scene.image.ImageView;
 
 import java.util.List;

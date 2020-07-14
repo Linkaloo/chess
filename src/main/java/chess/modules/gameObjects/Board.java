@@ -1,6 +1,8 @@
 package chess.modules.gameObjects;
 
 import chess.modules.gameObjects.gamePieces.*;
+import chess.modules.gameObjects.pieceMove.PawnInitialMove;
+import chess.modules.gameObjects.pieceMove.PieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -62,25 +64,10 @@ public class Board {
 
     }
 
-    public Piece movePiece(ImageView temp, Integer col, Integer row) {
-        for (Piece piece : pieces) {
-            if (piece.getImage().equals(temp)) {
-                piece.move(new PieceMove(col, row));
-                return checkTakePiece(piece, col, row);
-            }
-        }
-        return null;
-    }
-
-    public Piece checkTakePiece(Piece piece, Integer col, Integer row) {
-        for(int i = 0; i < pieces.size(); i++) {
-            if(pieces.get(i).getColumnPos() == col && pieces.get(i).getRowPos() == row && pieces.get(i).getPieceColor() != piece.getPieceColor()) {
-                Piece tempPiece = pieces.get(i);
-                pieces.remove(i);
-                return tempPiece;
-            }
-        }
-        return null;
+    public void movePiece(PieceMove pieceMove) {
+        pieceMove.getCurrPiece().move(pieceMove);
+        if(pieceMove instanceof PawnInitialMove)
+            ((Pawn)pieceMove.getCurrPiece()).setEnpassantable(true);
     }
 
     public Piece getPieceFromImage(ImageView temp) {

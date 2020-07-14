@@ -1,6 +1,7 @@
 package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.pieceMove.PieceMove;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -59,20 +60,20 @@ public class King extends Piece {
     private List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
 
-        possibleMoves.add(new PieceMove(columnPos, rowPos + 1));
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 1));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 1));
+        possibleMoves.add(new PieceMove(columnPos, rowPos + 1, this));
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 1, this));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 1, this));
 
-        possibleMoves.add(new PieceMove(columnPos, rowPos - 1));
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 1));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 1));
+        possibleMoves.add(new PieceMove(columnPos, rowPos - 1, this));
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 1, this));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 1, this));
 
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos));
+        possibleMoves.add(new PieceMove(columnPos + 1, rowPos, this));
+        possibleMoves.add(new PieceMove(columnPos - 1, rowPos, this));
 
         if(initialMove) {
-            possibleMoves.add(new PieceMove(columnPos + 2, rowPos));
-            possibleMoves.add(new PieceMove(columnPos - 2, rowPos));
+            possibleMoves.add(new PieceMove(columnPos + 2, rowPos, this));
+            possibleMoves.add(new PieceMove(columnPos - 2, rowPos, this));
         }
 
         return possibleMoves

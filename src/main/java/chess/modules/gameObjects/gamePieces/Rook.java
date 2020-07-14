@@ -1,6 +1,8 @@
 package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -30,7 +32,9 @@ public class Rook extends Piece{
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        return getPossibleMoves(board);
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
+        return possibleMoves;
     }
 
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
@@ -45,39 +49,47 @@ public class Rook extends Piece{
         PieceMove testMove;
 
         while(!isBlocked && moveRow >= 0) {
-            testMove = new PieceMove(columnPos, moveRow - 1);
+            testMove = new PieceMove(columnPos, moveRow - 1, this);
             isBlocked = moveIsBlocked(testMove, board);
-            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+            if(!isBlocked)
                 possibleMoves.add(testMove);
+            else
+                possibleMoves.add(new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos())));
             moveRow--;
         }
 
         moveRow = rowPos;
         isBlocked = false;
         while(!isBlocked && moveRow <= 7) {
-            testMove = new PieceMove(columnPos, moveRow + 1);
+            testMove = new PieceMove(columnPos, moveRow + 1, this);
             isBlocked = moveIsBlocked(testMove, board);
-            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+            if(!isBlocked)
                 possibleMoves.add(testMove);
+            else
+                possibleMoves.add(new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos())));
             moveRow++;
         }
 
         isBlocked = false;
         while(!isBlocked && moveColumn >= 0) {
-            testMove = new PieceMove(moveColumn - 1, rowPos);
+            testMove = new PieceMove(moveColumn - 1, rowPos, this);
             isBlocked = moveIsBlocked(testMove, board);
-            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+            if(!isBlocked)
                 possibleMoves.add(testMove);
+            else
+                possibleMoves.add(new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos())));
             moveColumn--;
         }
 
         moveColumn = columnPos;
         isBlocked = false;
         while(!isBlocked && moveColumn <= 7) {
-            testMove = new PieceMove(moveColumn + 1, rowPos);
+            testMove = new PieceMove(moveColumn + 1, rowPos, this);
             isBlocked = moveIsBlocked(testMove, board);
-            if(!isBlocked || !(board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()).getPieceColor().equals(pieceColor)))
+            if(!isBlocked)
                 possibleMoves.add(testMove);
+            else
+                possibleMoves.add(new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos())));
             moveColumn++;
         }
 
