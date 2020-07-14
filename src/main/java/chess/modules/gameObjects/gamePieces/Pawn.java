@@ -70,6 +70,25 @@ public class Pawn extends Piece {
         return possibleMoves;
     }
 
+    @Override
+    public List<PieceMove> getAllPossibleMoves(Board board) { //attacking moves only, so not forward moves
+        List<PieceMove> tempMoves = getPossibleMoves(board);
+
+        tempMoves.removeIf(pieceMove -> (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos + 1) || (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 1)
+        || (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos + 2) || (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 2));
+
+        if(pieceColor == PieceColor.WHITE) {
+            tempMoves.add(new PieceMove(columnPos + 1, rowPos - 1));
+            tempMoves.add(new PieceMove(columnPos - 1, rowPos - 1));
+        }
+        else {
+            tempMoves.add(new PieceMove(columnPos + 1, rowPos + 1));
+            tempMoves.add(new PieceMove(columnPos - 1, rowPos + 1));
+        }
+
+        return tempMoves;
+    }
+
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
         return board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()) != null;
     }

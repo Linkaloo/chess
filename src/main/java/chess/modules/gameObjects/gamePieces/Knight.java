@@ -37,6 +37,10 @@ public class Knight extends Piece {
         return possibleMoves;
     }
 
+    @Override
+    public List<PieceMove> getAllPossibleMoves(Board board) {
+        return getPossibleMoves(board);
+    }
 
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
         Piece pieceOnBoard = board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos());
@@ -45,8 +49,6 @@ public class Knight extends Piece {
 
     private List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
-        boolean isBlocked;
-        PieceMove testMove;
 
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 2, rowPos + 1, this), board));
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 2, rowPos + 1, this), board));
@@ -73,5 +75,4 @@ public class Knight extends Piece {
             return new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()));
         return null;
     }
-
 }

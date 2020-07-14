@@ -37,6 +37,11 @@ public class Rook extends Piece{
         return possibleMoves;
     }
 
+    @Override
+    public List<PieceMove> getAllPossibleMoves(Board board) {
+        return getPossibleMoves(board);
+    }
+
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
         return board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos()) != null;
     }

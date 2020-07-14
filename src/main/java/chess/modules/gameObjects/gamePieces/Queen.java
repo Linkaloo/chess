@@ -38,6 +38,11 @@ public class Queen extends Piece {
         return possibleMoves;
     }
 
+    @Override
+    public List<PieceMove> getAllPossibleMoves(Board board) {
+        return getPossibleMoves(board);
+    }
+
     private boolean moveIsBlocked(PieceMove testMove, Board board) {
         Piece pieceOnBoard = board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos());
         return pieceOnBoard != null;

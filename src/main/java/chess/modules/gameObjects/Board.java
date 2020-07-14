@@ -98,4 +98,8 @@ public class Board {
     public List<Pawn> getPawns(PieceColor pieceColor) {
         return  pieces.stream().filter(piece -> piece instanceof Pawn && piece.getPieceColor().equals(pieceColor)).map(piece -> (Pawn) piece).collect(Collectors.toList());
     }
+
+    public List<Piece> getOppositeColorPieces(PieceColor pieceColor) {
+        return pieces.stream().filter(piece -> !(piece instanceof King) && piece.getPieceColor() != pieceColor).collect(Collectors.toList());
+    }
 }
