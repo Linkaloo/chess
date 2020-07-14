@@ -3,7 +3,6 @@ package chess.modules.gameObjects.gamePieces;
 import chess.modules.GameController;
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
-import chess.modules.gameObjects.pieceMove.PawnInitialMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
 import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.Image;
@@ -93,7 +92,7 @@ public class Pawn extends Piece {
             if (initialMove && !moveIsBlocked(testMove, board)) {
                 testMove = new PieceMove(columnPos, rowPos - 2, this);
                 if(!moveIsBlocked(testMove, board))
-                    possibleMoves.add(new PawnInitialMove(testMove.getColumnPos(), testMove.getRowPos(), this));
+                    possibleMoves.add(testMove);
             }
 
 
@@ -128,7 +127,7 @@ public class Pawn extends Piece {
             if (initialMove && !moveIsBlocked(testMove, board)) {
                 testMove = new PieceMove(columnPos, rowPos + 2, this);
                 if(!moveIsBlocked(testMove, board))
-                    possibleMoves.add(new PawnInitialMove(testMove.getColumnPos(), testMove.getRowPos(), this));
+                    possibleMoves.add(testMove);
             }
 
             if (columnPos >= 0 && rightPiece != null) {

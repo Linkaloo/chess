@@ -1,7 +1,6 @@
 package chess.modules.gameObjects;
 
 import chess.modules.gameObjects.gamePieces.*;
-import chess.modules.gameObjects.pieceMove.PawnInitialMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -66,8 +65,6 @@ public class Board {
 
     public void movePiece(PieceMove pieceMove) {
         pieceMove.getCurrPiece().move(pieceMove);
-        if(pieceMove instanceof PawnInitialMove)
-            ((Pawn)pieceMove.getCurrPiece()).setEnpassantable(true);
     }
 
     public Piece getPieceFromImage(ImageView temp) {
