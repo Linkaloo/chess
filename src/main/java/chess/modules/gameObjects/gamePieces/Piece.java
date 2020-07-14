@@ -25,9 +25,7 @@ public abstract class Piece {
         rowPos = move.getRowPos();
     }
 
-    protected boolean moveCausesCheck(Board board, GameController gameController) {
-        return false;
-    }
+    public abstract List<PieceMove> getAllPossibleMoves(Board board);
 
     public abstract List<PieceMove> getLegalMoves(Board board);
 

@@ -2,12 +2,14 @@ package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class King extends Piece {
@@ -34,21 +36,12 @@ public class King extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-
-        return possibleMoves
-                .stream()
-                .filter(pieceMove -> checkMove(pieceMove, board)).collect(Collectors.toList());
+        return getPossibleMoves(board);
     }
 
-    private boolean checkMove(PieceMove pieceMove, Board board) {
-        Piece boardPiece = board.getPieceOnBoard(pieceMove.getColumnPos(), pieceMove.getRowPos());
-        if(boardPiece == null)
-            return true;
-        else if(boardPiece != null && boardPiece.getPieceColor() != pieceColor)
-            return true;
-        else
-            return false;
+    @Override
+    public List<PieceMove> getAllPossibleMoves(Board board) {
+        return getPossibleMoves(board);
     }
 
     @Override
@@ -57,29 +50,56 @@ public class King extends Piece {
         initialMove = false;
     }
 
+    private boolean checkNextToKing(PieceMove pieceMove) {
+        return pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos ||
+                pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos + 1 || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos + 1 || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos + 1 ||
+                pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos - 1;
+    }
+
     private List<PieceMove> getPossibleMoves(Board board) {
-        ArrayList<PieceMove> possibleMoves = new ArrayList<>();
+        List<Piece> oppositePieces = board.getOppositeColorPieces(pieceColor);
+        List<PieceMove> oppositePiecesCheckingMoves = new ArrayList<>();
+        List<PieceMove> possibleMoves = new ArrayList<>();
 
-        possibleMoves.add(new PieceMove(columnPos, rowPos + 1, this));
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos + 1, this));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos + 1, this));
-
-        possibleMoves.add(new PieceMove(columnPos, rowPos - 1, this));
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos - 1, this));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos - 1, this));
-
-        possibleMoves.add(new PieceMove(columnPos + 1, rowPos, this));
-        possibleMoves.add(new PieceMove(columnPos - 1, rowPos, this));
-
-        if(initialMove) {
-            possibleMoves.add(new PieceMove(columnPos + 2, rowPos, this));
-            possibleMoves.add(new PieceMove(columnPos - 2, rowPos, this));
+        for (Piece piece: oppositePieces) {
+            List<PieceMove> oppPieceLegalMoves = piece.getAllPossibleMoves(board);
+            for (PieceMove oppPieceMove: oppPieceLegalMoves){
+                if (checkNextToKing(oppPieceMove))
+                    oppositePiecesCheckingMoves.add(oppPieceMove);
+            }
         }
 
-        return possibleMoves
-                .stream()
-                .filter(pieceMove -> pieceMove.getColumnPos() >= 0 && pieceMove.getColumnPos() <= 7 && pieceMove.getRowPos() >= 0 && pieceMove.getRowPos() <= 7)
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos, rowPos + 1, this), oppositePiecesCheckingMoves, board));
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos + 1, this), oppositePiecesCheckingMoves, board));
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos + 1, this), oppositePiecesCheckingMoves, board));
+
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos, rowPos - 1, this), oppositePiecesCheckingMoves, board));
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos - 1, this), oppositePiecesCheckingMoves, board));
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos - 1, this), oppositePiecesCheckingMoves, board));
+
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos, this), oppositePiecesCheckingMoves, board));
+        possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos, this), oppositePiecesCheckingMoves, board));
+
+        if(initialMove) {
+            possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 2, rowPos, this), oppositePiecesCheckingMoves, board));
+            possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 2, rowPos, this), oppositePiecesCheckingMoves, board));
+        }
+
+        return possibleMoves.stream()
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
+    private boolean containsOwnColor(PieceMove testMove, Board board) {
+        return board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()) != null && board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()).getPieceColor() == pieceColor;
+    }
+
+    private PieceMove getPossibleMove(PieceMove testMove, List<PieceMove> oppPiecesMoves, Board board) {
+        if(testMove.getColumnPos() > 7 || testMove.getColumnPos() < 0 || testMove.getRowPos() > 7 || testMove.getRowPos() < 0)
+            return null;
+        else if(testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7 && !oppPiecesMoves.contains(testMove) && !containsOwnColor(testMove, board))
+            return testMove;
+        else
+            return null;
+    }
 }
