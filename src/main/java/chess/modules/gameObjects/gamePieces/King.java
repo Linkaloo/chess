@@ -1,6 +1,7 @@
 package chess.modules.gameObjects.gamePieces;
 
 import chess.modules.gameObjects.Board;
+import chess.modules.gameObjects.pieceMove.CastlingPieceMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
 import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.Image;
@@ -36,7 +37,9 @@ public class King extends Piece {
 
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
-        return getPossibleMoves(board);
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
+        return possibleMoves;
     }
 
     @Override
@@ -53,7 +56,8 @@ public class King extends Piece {
     private boolean checkNextToKing(PieceMove pieceMove) {
         return pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos ||
                 pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos + 1 || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos + 1 || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos + 1 ||
-                pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos - 1;
+                pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos + 1 && pieceMove.getRowPos() == rowPos - 1 || pieceMove.getColumnPos() == columnPos - 1 && pieceMove.getRowPos() == rowPos - 1 ||
+                pieceMove.getColumnPos() == columnPos + 2 && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos - 2 && pieceMove.getRowPos() == rowPos;
     }
 
     private List<PieceMove> getPossibleMoves(Board board) {
@@ -81,25 +85,29 @@ public class King extends Piece {
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos, this), oppositePiecesCheckingMoves, board));
 
         if(initialMove) {
-            possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 2, rowPos, this), oppositePiecesCheckingMoves, board));
-            possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 2, rowPos, this), oppositePiecesCheckingMoves, board));
+            possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos + 2, rowPos, this, board.getCastlingRook(columnPos + 3, pieceColor)), oppositePiecesCheckingMoves, board));
+            possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos - 2, rowPos, this, board.getCastlingRook(columnPos - 4, pieceColor)), oppositePiecesCheckingMoves, board));
         }
+
 
         return possibleMoves.stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-    private boolean containsOwnColor(PieceMove testMove, Board board) {
-        return board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()) != null && board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()).getPieceColor() == pieceColor;
-    }
-
     private PieceMove getPossibleMove(PieceMove testMove, List<PieceMove> oppPiecesMoves, Board board) {
-        if(testMove.getColumnPos() > 7 || testMove.getColumnPos() < 0 || testMove.getRowPos() > 7 || testMove.getRowPos() < 0)
-            return null;
-        else if(testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7 && !oppPiecesMoves.contains(testMove) && !containsOwnColor(testMove, board))
-            return testMove;
+        Piece tempBoardPiece = board.getPieceOnBoard(testMove.getColumnPos(),testMove.getRowPos());
+
+        if(testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) {
+            if (!oppPiecesMoves.contains(testMove) && tempBoardPiece == null)
+                return testMove;
+            else if(!oppPiecesMoves.contains(testMove) && tempBoardPiece != null)
+                return new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, tempBoardPiece);
+            else
+                return null;
+        }
         else
             return null;
     }
+
 }

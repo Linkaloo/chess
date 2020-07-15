@@ -102,4 +102,9 @@ public class Board {
     public List<Piece> getOppositeColorPieces(PieceColor pieceColor) {
         return pieces.stream().filter(piece -> !(piece instanceof King) && piece.getPieceColor() != pieceColor).collect(Collectors.toList());
     }
+
+    public Rook getCastlingRook(int rookColPos, PieceColor ownColor) {
+        return pieces.stream().filter(piece -> piece instanceof Rook && piece.getPieceColor().equals(ownColor)
+                && piece.getColumnPos() == rookColPos).map(piece -> (Rook) piece).findFirst().get();
+    }
 }

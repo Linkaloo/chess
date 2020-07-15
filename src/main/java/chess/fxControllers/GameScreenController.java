@@ -3,6 +3,7 @@ package chess.fxControllers;
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.gamePieces.*;
 import chess.modules.GameController;
+import chess.modules.gameObjects.pieceMove.CastlingPieceMove;
 import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
 import chess.modules.gameObjects.pieceMove.TakePieceMove;
@@ -118,12 +119,29 @@ public class GameScreenController {
             boardGrid.getChildren().remove(((TakePieceMove) pieceMove).getTakePiece().getImage());
             board.removePieceFromBoard(((TakePieceMove) pieceMove).getTakePiece());
         }
+        else if(pieceMove instanceof CastlingPieceMove) {
+            handleCastling(currPiece, pieceMove);
+        }
 
         if(currPiece instanceof Pawn) {
             handlePawnPromotion(currPiece);
         }
         else
             resetBoard();
+    }
+
+    private void handleCastling(Piece currPiece, PieceMove pieceMove) {
+        Rook currRook = ((CastlingPieceMove) pieceMove).getOwnRook();
+        PieceMove tempMove;
+
+        if(currRook.getColumnPos() < currPiece.getColumnPos())
+            tempMove = new PieceMove(currRook.getColumnPos() + 3, currRook.getRowPos());
+        else
+            tempMove = new PieceMove(currRook.getColumnPos() - 2, currRook.getRowPos());
+
+        currRook.move(tempMove);
+        boardGrid.getChildren().remove(currRook.getImage());
+        boardGrid.add(currRook.getImage(), currRook.getColumnPos(),currRook.getRowPos());
     }
 
     private void handlePawnPromotion(Piece currPiece) {
