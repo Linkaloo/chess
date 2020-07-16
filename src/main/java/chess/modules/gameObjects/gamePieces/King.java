@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 public class King extends Piece {
 
     private boolean initialMove;
+    private boolean isInCheck;
 
     public King(int columnPos, int rowPos, PieceColor pieceColor) {
         super(columnPos, rowPos, pieceColor);
         initialMove = true;
+        isInCheck = false;
 
         File file;
         switch (pieceColor) {
@@ -84,7 +86,7 @@ public class King extends Piece {
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos, this), oppositePiecesCheckingMoves, board));
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos, this), oppositePiecesCheckingMoves, board));
 
-        if(initialMove) {
+        if(initialMove && !isInCheck) {
             possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos + 2, rowPos, this, board.getCastlingRook(columnPos + 3, pieceColor)), oppositePiecesCheckingMoves, board));
             possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos - 2, rowPos, this, board.getCastlingRook(columnPos - 4, pieceColor)), oppositePiecesCheckingMoves, board));
         }
@@ -100,7 +102,10 @@ public class King extends Piece {
 
         if(testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) {
             if (!oppPiecesMoves.contains(testMove) && tempBoardPiece == null)
-                return testMove;
+                if(testMove instanceof CastlingPieceMove && !validCastle(testMove, oppPiecesMoves))
+                    return null;
+                else
+                    return testMove;
             else if(!oppPiecesMoves.contains(testMove) && tempBoardPiece != null)
                 return new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, tempBoardPiece);
             else
@@ -110,4 +115,7 @@ public class King extends Piece {
             return null;
     }
 
+    private boolean validCastle(PieceMove testMove, List<PieceMove> oppPiecesMoves) {
+        return !((testMove.getColumnPos() == columnPos + 2 && oppPiecesMoves.contains(new PieceMove(columnPos + 1, rowPos))) || (testMove.getColumnPos() == columnPos - 2 && oppPiecesMoves.contains(new PieceMove(columnPos - 1, rowPos))));
+    }
 }
