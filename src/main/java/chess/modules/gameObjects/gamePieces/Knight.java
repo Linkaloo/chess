@@ -31,13 +31,6 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
-        return possibleMoves;
-    }
-
-    @Override
     public List<PieceMove> getAllPossibleMoves(Board board) {
         return getPossibleMoves(board);
     }
@@ -47,7 +40,7 @@ public class Knight extends Piece {
         return pieceOnBoard != null;
     }
 
-    private List<PieceMove> getPossibleMoves(Board board) {
+    protected List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
 
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 2, rowPos + 1, this), board));

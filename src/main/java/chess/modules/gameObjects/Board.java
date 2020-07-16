@@ -1,7 +1,9 @@
 package chess.modules.gameObjects;
 
 import chess.modules.gameObjects.gamePieces.*;
+import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -64,7 +66,27 @@ public class Board {
     }
 
     public void movePiece(PieceMove pieceMove) {
+
+        if(pieceMove instanceof TakePieceMove)
+            removePieceFromBoard(((TakePieceMove) pieceMove).getTakePiece());
+        else if(pieceMove instanceof EnPassantPieceMove)
+            removePieceFromBoard(((EnPassantPieceMove) pieceMove).getOpponentPawn());
+
         pieceMove.getCurrPiece().move(pieceMove);
+    }
+
+    public void undoMove(PieceMove pieceMove) {
+
+        if(pieceMove instanceof TakePieceMove)
+            pieces.add(((TakePieceMove) pieceMove).getTakePiece());
+        else if(pieceMove instanceof EnPassantPieceMove)
+            pieces.add(((EnPassantPieceMove) pieceMove).getOpponentPawn());
+
+        pieceMove.getCurrPiece().move(new PieceMove(pieceMove.getInitialColumnPos(), pieceMove.getInitialRowPos()));
+        if(pieceMove.isInitialMove() && pieceMove.getCurrPiece() instanceof Pawn)
+            ((Pawn) pieceMove.getCurrPiece()).setInitialMove(true);
+        else if(pieceMove.isInitialMove() && pieceMove.getCurrPiece() instanceof King)
+            ((King) pieceMove.getCurrPiece()).setInitialMove(true);
     }
 
     public Piece getPieceFromImage(ImageView temp) {
@@ -106,5 +128,32 @@ public class Board {
     public Rook getCastlingRook(int rookColPos, PieceColor ownColor) {
         return pieces.stream().filter(piece -> piece instanceof Rook && piece.getPieceColor().equals(ownColor)
                 && piece.getColumnPos() == rookColPos).map(piece -> (Rook) piece).findFirst().get();
+    }
+
+    public boolean isKingInCheck(King king) {
+
+        for (Piece piece : pieces) {
+            if(piece.getPieceColor() == king.getPieceColor())
+                continue;
+            List<PieceMove> opponentLegalMoves = piece.getAllPossibleMoves(this);
+            if(opponentLegalMoves.contains(new PieceMove(king.getColumnPos(), king.getRowPos())))
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean isKingInCheck(King king, PieceMove pieceMove) {
+
+        boolean isKingInCheck;
+        movePiece(pieceMove);
+        isKingInCheck = isKingInCheck(king);
+        undoMove(pieceMove);
+
+        return isKingInCheck;
+    }
+
+    public King getKing(PieceColor color) {
+        return (King) pieces.stream().filter(piece -> piece instanceof King && piece.getPieceColor() == color).findFirst().orElse(null);
     }
 }

@@ -3,8 +3,10 @@ package chess.modules.gameObjects.gamePieces;
 import chess.modules.GameController;
 import chess.modules.gameObjects.Board;
 import chess.modules.gameObjects.pieceMove.PieceMove;
+import chess.modules.gameObjects.pieceMove.TakePieceMove;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -27,7 +29,19 @@ public abstract class Piece {
 
     public abstract List<PieceMove> getAllPossibleMoves(Board board);
 
-    public abstract List<PieceMove> getLegalMoves(Board board);
+    public List<PieceMove> getLegalMoves(Board board) {
+        List<PieceMove> possibleMoves = getPossibleMoves(board);
+        List<PieceMove> legalMoves = new ArrayList<>();
+        possibleMoves.forEach(pieceMove -> {
+            if(!(pieceMove instanceof TakePieceMove
+                    && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor())
+                    && !board.isKingInCheck(board.getKing(pieceColor), pieceMove))
+                legalMoves.add(pieceMove);
+        });
+        return legalMoves;
+    }
+
+    protected abstract List<PieceMove> getPossibleMoves(Board board);
 
     public int getColumnPos() {
         return columnPos;

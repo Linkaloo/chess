@@ -49,6 +49,14 @@ public class Pawn extends Piece {
         return enpassantable;
     }
 
+    public boolean isInitialMove() {
+        return initialMove;
+    }
+
+    public void setInitialMove(boolean initialMove) {
+        this.initialMove = initialMove;
+    }
+
     @Override
     public void move(PieceMove move) {
         int currRow = rowPos;
@@ -61,13 +69,6 @@ public class Pawn extends Piece {
 
     public void setEnpassantable(boolean enpassantable) {
         this.enpassantable = enpassantable;
-    }
-
-    @Override
-    public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
-        return possibleMoves;
     }
 
     @Override
@@ -93,7 +94,7 @@ public class Pawn extends Piece {
         return board.getPieceOnBoard(testMove.getColumnPos(), testMove.getRowPos()) != null;
     }
 
-    private List<PieceMove> getPossibleMoves(Board board) {
+    protected List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
 
         if (pieceColor.equals(PieceColor.WHITE) && rowPos > 0) {

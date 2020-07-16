@@ -113,11 +113,9 @@ public class GameScreenController {
 
         if(pieceMove instanceof EnPassantPieceMove) {
             boardGrid.getChildren().remove(((EnPassantPieceMove)pieceMove).getOpponentPawn().getImage());
-            board.removePieceFromBoard(((EnPassantPieceMove) pieceMove).getOpponentPawn());
         }
         else if(pieceMove instanceof TakePieceMove) {
             boardGrid.getChildren().remove(((TakePieceMove) pieceMove).getTakePiece().getImage());
-            board.removePieceFromBoard(((TakePieceMove) pieceMove).getTakePiece());
         }
         else if(pieceMove instanceof CastlingPieceMove) {
             handleCastling(currPiece, pieceMove);
