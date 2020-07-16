@@ -31,13 +31,6 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
-        return possibleMoves;
-    }
-
-    @Override
     public List<PieceMove> getAllPossibleMoves(Board board) {
         return getPossibleMoves(board);
     }
@@ -48,7 +41,7 @@ public class Bishop extends Piece {
     }
 
 
-    private List<PieceMove> getPossibleMoves(Board board) {
+    protected List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
         boolean isBlocked = false;
         int moveColumn = columnPos;

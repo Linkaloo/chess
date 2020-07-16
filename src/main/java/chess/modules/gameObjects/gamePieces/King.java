@@ -35,6 +35,14 @@ public class King extends Piece {
         super.image.setImage(imageFile);
     }
 
+    public boolean isInitialMove() {
+        return initialMove;
+    }
+
+    public void setInitialMove(boolean initialMove) {
+        this.initialMove = initialMove;
+    }
+
     @Override
     public List<PieceMove> getLegalMoves(Board board) {
         List<PieceMove> possibleMoves = getPossibleMoves(board);
@@ -60,7 +68,7 @@ public class King extends Piece {
                 pieceMove.getColumnPos() == columnPos + 2 && pieceMove.getRowPos() == rowPos || pieceMove.getColumnPos() == columnPos - 2 && pieceMove.getRowPos() == rowPos;
     }
 
-    private List<PieceMove> getPossibleMoves(Board board) {
+    protected List<PieceMove> getPossibleMoves(Board board) {
         List<Piece> oppositePieces = board.getOppositeColorPieces(pieceColor);
         List<PieceMove> oppositePiecesCheckingMoves = new ArrayList<>();
         List<PieceMove> possibleMoves = new ArrayList<>();

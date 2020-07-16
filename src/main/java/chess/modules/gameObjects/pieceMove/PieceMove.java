@@ -1,13 +1,18 @@
 package chess.modules.gameObjects.pieceMove;
 
 
+import chess.modules.gameObjects.gamePieces.King;
+import chess.modules.gameObjects.gamePieces.Pawn;
 import chess.modules.gameObjects.gamePieces.Piece;
 
 public class PieceMove {
 
     private int columnPos;
     private int rowPos;
+    private int initialColumnPos;
+    private int initialRowPos;
     private Piece currPiece;
+    private boolean initialMove = false;
 
     public PieceMove(int columnPos, int rowPos) {
         this.columnPos = columnPos;
@@ -18,6 +23,12 @@ public class PieceMove {
         this.columnPos = columnPos;
         this.rowPos = rowPos;
         this.currPiece = piece;
+        this.initialColumnPos = piece.getColumnPos();
+        this.initialRowPos = piece.getRowPos();
+        if(piece instanceof King)
+            this.initialMove = ((King) piece).isInitialMove();
+        else if(piece instanceof Pawn)
+            this.initialMove = ((Pawn) piece).isInitialMove();
     }
 
     public void setColumnPos(int columnPos) {
@@ -34,6 +45,18 @@ public class PieceMove {
 
     public int getRowPos() {
         return rowPos;
+    }
+
+    public int getInitialColumnPos() {
+        return initialColumnPos;
+    }
+
+    public int getInitialRowPos() {
+        return initialRowPos;
+    }
+
+    public boolean isInitialMove() {
+        return initialMove;
     }
 
     public Piece getCurrPiece() {
