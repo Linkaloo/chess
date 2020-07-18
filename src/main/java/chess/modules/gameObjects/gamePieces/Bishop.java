@@ -48,6 +48,8 @@ public class Bishop extends Piece {
         int moveRow = rowPos;
         PieceMove testMove;
 
+
+        // gets top left, unblocked diagonal moves
         while(!isBlocked && moveColumn >= 0 && moveRow >= 0) {
             testMove = new PieceMove(moveColumn - 1, moveRow - 1, this);
             isBlocked = moveIsBlocked(testMove, board);
@@ -60,6 +62,7 @@ public class Bishop extends Piece {
         }
 
 
+        // gets top right, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;
@@ -74,6 +77,7 @@ public class Bishop extends Piece {
             moveRow--;
         }
 
+        // gets lower left, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;
@@ -88,6 +92,7 @@ public class Bishop extends Piece {
             moveRow++;
         }
 
+        // gets lower right, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;

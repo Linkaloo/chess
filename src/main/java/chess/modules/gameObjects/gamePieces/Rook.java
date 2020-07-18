@@ -46,6 +46,7 @@ public class Rook extends Piece{
         int moveRow = rowPos;
         PieceMove testMove;
 
+        // gets directly above, unblocked moves
         while(!isBlocked && moveRow >= 0) {
             testMove = new PieceMove(columnPos, moveRow - 1, this);
             isBlocked = moveIsBlocked(testMove, board);
@@ -56,6 +57,7 @@ public class Rook extends Piece{
             moveRow--;
         }
 
+        // gets directly below, unblocked moves
         moveRow = rowPos;
         isBlocked = false;
         while(!isBlocked && moveRow <= 7) {
@@ -68,6 +70,7 @@ public class Rook extends Piece{
             moveRow++;
         }
 
+        // gets directly left, unblocked moves
         isBlocked = false;
         while(!isBlocked && moveColumn >= 0) {
             testMove = new PieceMove(moveColumn - 1, rowPos, this);
@@ -79,6 +82,7 @@ public class Rook extends Piece{
             moveColumn--;
         }
 
+        // gets directly right, unblocked moves
         moveColumn = columnPos;
         isBlocked = false;
         while(!isBlocked && moveColumn <= 7) {

@@ -57,22 +57,28 @@ public class GameScreenController {
             return;
         }
 
+        // user clicks on any piece
         if(mouseEvent.getTarget() instanceof ImageView) {
             Integer col = GridPane.getColumnIndex((ImageView) mouseEvent.getTarget()), row = GridPane.getRowIndex((ImageView) mouseEvent.getTarget());
             Pane clickedPane = (Pane) boardGrid.getChildren().get(row * 8 + col);
             Piece clickedPiece = board.getPieceOnBoard(col, row);
 
-            handlePieceClicked(clickedPiece, clickedPane, col, row);
+            handlePieceClicked(clickedPiece, clickedPane, col, row); // handles event once a piece is clicked
         }
+
+        // user clicks on any pane
         else if(mouseEvent.getTarget() instanceof Pane){
             Integer col = GridPane.getColumnIndex((Pane) mouseEvent.getTarget()), row = GridPane.getRowIndex((Pane) mouseEvent.getTarget());
             Pane clickedPane = (Pane) mouseEvent.getTarget();
             Piece clickedPiece = board.getPieceOnBoard(col, row);
-            PieceMove tempPieceMove = this.gameController.getLegalMove(row, col);
+            PieceMove tempPieceMove = this.gameController.getLegalMove(row, col);   // returns the position of pane as a PieceMove if pane clicked is a legal move for that piece
 
+            // handles event if there is a piece on the pane that is clicked
             if(clickedPiece != null) {
                 handlePieceClicked(clickedPiece, clickedPane, col, row);
             }
+
+            // handles event if there is no piece on the pane that is clicked
             else if(currPiece != null && tempPieceMove != null) {
                 movePiece(tempPieceMove);
             }
@@ -81,8 +87,10 @@ public class GameScreenController {
 
     private void handlePieceClicked(Piece clickedPiece, Pane clickedPane, int col, int row) {
 
+        // returns the position of pane as a PieceMove if pane clicked is a legal move for that piece
         PieceMove pieceMove = gameController.getLegalMove(row, col);
 
+        // highlights piece that is clicked and its possible moves, when a piece is initially clicked
         if(currPiece == null && clickedPiece.getPieceColor().equals(gameController.checkTurn())) {
             currPiece = clickedPiece;
             highlightedPanes.add(clickedPane);
@@ -90,6 +98,8 @@ public class GameScreenController {
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }
+
+        // highlights new piece that is clicked and its possible moves, after a piece has already been clicked
         else if(currPiece != null && clickedPiece.getPieceColor().equals(gameController.checkTurn())) {
             resetBoard();
             currPiece = clickedPiece;
@@ -98,6 +108,8 @@ public class GameScreenController {
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
         }
+
+        // moves piece to clicked location, if its move is legal and it is that color's turn
         else if(currPiece != null && !clickedPiece.getPieceColor().equals(gameController.checkTurn()) && pieceMove != null) {
             movePiece(pieceMove);
         }
@@ -107,10 +119,12 @@ public class GameScreenController {
 
         Piece currPiece = pieceMove.getCurrPiece();
 
+        // removes the image of the piece that is moved current position, places the image on the new position it is at, and updates the pieces position
         boardGrid.getChildren().remove(currPiece.getImage());
         boardGrid.add(currPiece.getImage(), pieceMove.getColumnPos(), pieceMove.getRowPos());
         gameController.movePiece(pieceMove);
 
+        // handles special moves if they occur
         if(pieceMove instanceof EnPassantPieceMove) {
             boardGrid.getChildren().remove(((EnPassantPieceMove)pieceMove).getOpponentPawn().getImage());
         }
@@ -126,6 +140,8 @@ public class GameScreenController {
         }
         else
             resetBoard();
+
+        gameController.updateKingInCheck(currPiece);
     }
 
     private void handleCastling(Piece currPiece, PieceMove pieceMove) {
@@ -137,13 +153,17 @@ public class GameScreenController {
         else
             tempMove = new PieceMove(currRook.getColumnPos() - 2, currRook.getRowPos());
 
+        // moves the rook to new position, deletes the image at the old position and places the image at the new position
         currRook.move(tempMove);
         boardGrid.getChildren().remove(currRook.getImage());
         boardGrid.add(currRook.getImage(), currRook.getColumnPos(),currRook.getRowPos());
     }
 
+    // creates 1 new piece of each type, vertically, at the position which a pawn reaches its promotion,
+    // and only allows clicking 1 of the new pieces and converts the pawn to the clicked piece
     private void handlePawnPromotion(Piece currPiece) {
         resetBoard();
+
         if(gameController.isPawnPromoted((Pawn)currPiece)) {
             int direction = currPiece.getPieceColor() == PieceColor.WHITE ? 1 : -1;
             Piece tempQueen = new Queen(currPiece.getColumnPos(), currPiece.getRowPos(), currPiece.getPieceColor());
@@ -162,6 +182,7 @@ public class GameScreenController {
                     new PieceMove(currPiece.getColumnPos(), currPiece.getRowPos() + direction),
                     new PieceMove(currPiece.getColumnPos(), currPiece.getRowPos() + direction * 2),
                     new PieceMove(currPiece.getColumnPos(), currPiece.getRowPos() + direction * 3)));
+
             legalMoves.forEach(legalMove -> highlightedPanes.add((Pane) boardGrid.getChildren().get(legalMove.getRowPos() * 8 + legalMove.getColumnPos())));
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
             isPawnPromoting = true;
@@ -188,6 +209,7 @@ public class GameScreenController {
         currPiece = null;
     }
 
+    //used to revert a highlighted pane to its base color
     private PieceColor getPaneDefaultColor(Pane pane) {
         Integer col = GridPane.getColumnIndex(pane), row = GridPane.getRowIndex(pane);
         return col % 2 == row % 2 ? PieceColor.WHITE : PieceColor.BLACK;

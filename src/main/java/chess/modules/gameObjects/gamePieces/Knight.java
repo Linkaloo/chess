@@ -43,6 +43,7 @@ public class Knight extends Piece {
     protected List<PieceMove> getPossibleMoves(Board board) {
         ArrayList<PieceMove> possibleMoves = new ArrayList<>();
 
+        // adds all L shaped moves within bounds
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 2, rowPos + 1, this), board));
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 2, rowPos + 1, this), board));
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos + 2, this), board));

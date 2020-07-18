@@ -75,7 +75,7 @@ public class Board {
         pieceMove.getCurrPiece().move(pieceMove);
     }
 
-    public void undoMove(PieceMove pieceMove) {
+    public void undoMove(PieceMove pieceMove, boolean isEnpassantable) {
 
         if(pieceMove instanceof TakePieceMove)
             pieces.add(((TakePieceMove) pieceMove).getTakePiece());
@@ -83,19 +83,14 @@ public class Board {
             pieces.add(((EnPassantPieceMove) pieceMove).getOpponentPawn());
 
         pieceMove.getCurrPiece().move(new PieceMove(pieceMove.getInitialColumnPos(), pieceMove.getInitialRowPos()));
-        if(pieceMove.isInitialMove() && pieceMove.getCurrPiece() instanceof Pawn)
-            ((Pawn) pieceMove.getCurrPiece()).setInitialMove(true);
+
+        if(pieceMove.getCurrPiece() instanceof Pawn) {
+            ((Pawn) pieceMove.getCurrPiece()).setEnpassantable(isEnpassantable);
+            if(pieceMove.isInitialMove())
+                ((Pawn) pieceMove.getCurrPiece()).setInitialMove(true);
+        }
         else if(pieceMove.isInitialMove() && pieceMove.getCurrPiece() instanceof King)
             ((King) pieceMove.getCurrPiece()).setInitialMove(true);
-    }
-
-    public Piece getPieceFromImage(ImageView temp) {
-        int piece = 0;
-        for(int i = 0; i < pieces.size(); i++) {
-            if(pieces.get(i).getImage().equals(temp))
-                piece = i;
-        }
-        return pieces.get(piece);
     }
 
     public void removePieceFromBoard(Piece piece) {
@@ -126,34 +121,44 @@ public class Board {
     }
 
     public Rook getCastlingRook(int rookColPos, PieceColor ownColor) {
-        return pieces.stream().filter(piece -> piece instanceof Rook && piece.getPieceColor().equals(ownColor)
-                && piece.getColumnPos() == rookColPos).map(piece -> (Rook) piece).findFirst().get();
+        return (Rook) pieces.stream().filter(piece -> piece instanceof Rook && piece.getPieceColor().equals(ownColor)
+                && piece.getColumnPos() == rookColPos).findFirst().orElse(null);
     }
 
+    // both isKingInCheck methods used to force either king to move while in check or allow a piece to block the check
     public boolean isKingInCheck(King king) {
 
         for (Piece piece : pieces) {
-            if(piece.getPieceColor() == king.getPieceColor())
+            if (piece.getPieceColor() == king.getPieceColor())
                 continue;
             List<PieceMove> opponentLegalMoves = piece.getAllPossibleMoves(this);
-            if(opponentLegalMoves.contains(new PieceMove(king.getColumnPos(), king.getRowPos())))
+            if (opponentLegalMoves.contains(new PieceMove(king.getColumnPos(), king.getRowPos()))) {
                 return true;
+            }
         }
 
         return false;
     }
 
+    // moves piece to temporary new position, checks if that position causes king to be in check, then undoes that movement,
+    // and returns if the king is in check due to that movement
     public boolean isKingInCheck(King king, PieceMove pieceMove) {
 
         boolean isKingInCheck;
+        boolean isEnPassantable = pieceMove.isEnpassantable();
+
         movePiece(pieceMove);
         isKingInCheck = isKingInCheck(king);
-        undoMove(pieceMove);
+        undoMove(pieceMove, isEnPassantable);
 
         return isKingInCheck;
     }
 
     public King getKing(PieceColor color) {
         return (King) pieces.stream().filter(piece -> piece instanceof King && piece.getPieceColor() == color).findFirst().orElse(null);
+    }
+
+    public King getOppKing(PieceColor color) {
+        return (King) pieces.stream().filter(piece -> piece instanceof King && piece.getPieceColor() != color).findFirst().orElse(null);
     }
 }

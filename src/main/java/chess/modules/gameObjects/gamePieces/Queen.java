@@ -49,6 +49,7 @@ public class Queen extends Piece {
         int moveRow = rowPos;
         PieceMove testMove;
 
+        // gets top left, unblocked diagonal moves
         while(!isBlocked && moveColumn >= 0 && moveRow >= 0) {
             testMove = new PieceMove(moveColumn - 1, moveRow - 1, this);
             isBlocked = moveIsBlocked(testMove, board);
@@ -61,6 +62,7 @@ public class Queen extends Piece {
         }
 
 
+        // gets top right, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;
@@ -75,6 +77,7 @@ public class Queen extends Piece {
             moveRow--;
         }
 
+        // gets lower left, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;
@@ -89,6 +92,7 @@ public class Queen extends Piece {
             moveRow++;
         }
 
+        // gets lower right, unblocked diagonal moves
         moveColumn = columnPos;
         moveRow = rowPos;
         isBlocked = false;
@@ -103,6 +107,7 @@ public class Queen extends Piece {
             moveRow++;
         }
 
+        // gets directly above, unblocked moves
         moveRow = rowPos;
         isBlocked = false;
         while(!isBlocked && moveRow >= 0) {
@@ -115,6 +120,7 @@ public class Queen extends Piece {
             moveRow--;
         }
 
+        // gets directly below, unblocked moves
         moveRow = rowPos;
         isBlocked = false;
         while(!isBlocked && moveRow <= 7) {
@@ -127,6 +133,7 @@ public class Queen extends Piece {
             moveRow++;
         }
 
+        // gets directly left, unblocked moves
         moveColumn = columnPos;
         isBlocked = false;
         while(!isBlocked && moveColumn >= 0) {
@@ -139,6 +146,7 @@ public class Queen extends Piece {
             moveColumn--;
         }
 
+        // gets directly right, unblocked moves
         moveColumn = columnPos;
         isBlocked = false;
         while(!isBlocked && moveColumn <= 7) {
