@@ -71,8 +71,9 @@ public class Pawn extends Piece {
         this.enpassantable = enpassantable;
     }
 
+    // gets only attacking moves, diagonals, and removes forward moves
     @Override
-    public List<PieceMove> getAllPossibleMoves(Board board) { //attacking moves only, so not forward moves
+    public List<PieceMove> getAllPossibleMoves(Board board) {
         List<PieceMove> tempMoves = getPossibleMoves(board);
 
         tempMoves.removeIf(pieceMove -> (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos + 1) || (pieceMove.getColumnPos() == columnPos && pieceMove.getRowPos() == rowPos - 1)

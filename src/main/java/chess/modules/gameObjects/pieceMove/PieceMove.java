@@ -13,6 +13,7 @@ public class PieceMove {
     private int initialRowPos;
     private Piece currPiece;
     private boolean initialMove = false;
+    private boolean enpassantable = false;
 
     public PieceMove(int columnPos, int rowPos) {
         this.columnPos = columnPos;
@@ -27,8 +28,10 @@ public class PieceMove {
         this.initialRowPos = piece.getRowPos();
         if(piece instanceof King)
             this.initialMove = ((King) piece).isInitialMove();
-        else if(piece instanceof Pawn)
+        else if(piece instanceof Pawn) {
             this.initialMove = ((Pawn) piece).isInitialMove();
+            this.enpassantable = ((Pawn) piece).isEnpassantable();
+        }
     }
 
     public void setColumnPos(int columnPos) {
@@ -61,6 +64,10 @@ public class PieceMove {
 
     public Piece getCurrPiece() {
         return currPiece;
+    }
+
+    public boolean isEnpassantable() {
+        return enpassantable;
     }
 
     @Override

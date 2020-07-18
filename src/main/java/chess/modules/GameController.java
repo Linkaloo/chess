@@ -42,14 +42,21 @@ public class GameController {
 
     }
 
-    public void updatePawnsEnpassant() {
-        List<Pawn> whitePawns = board.getPawns(PieceColor.WHITE);
-        List<Pawn> blackPawns = board.getPawns(PieceColor.BLACK);
+    // updates the value isInCheck inside king
+    public void updateKingInCheck(Piece movedPiece) {
+        King oppKing = board.getOppKing(movedPiece.getPieceColor());
+        List<PieceMove> movedPieceLegalMoves = movedPiece.getLegalMoves(board);
 
+        oppKing.setIsInCheck(movedPieceLegalMoves.contains(new PieceMove(oppKing.getColumnPos(), oppKing.getRowPos())));
+    }
+
+    public void updatePawnsEnpassant() {
         if(playersMove % 2 == 0) {
+            List<Pawn> whitePawns = board.getPawns(PieceColor.WHITE);
             whitePawns.forEach(pawn -> pawn.setEnpassantable(false));
         }
         if(playersMove % 2 == 1) {
+            List<Pawn> blackPawns = board.getPawns(PieceColor.BLACK);
             blackPawns.forEach(pawn -> pawn.setEnpassantable(false));
         }
     }
@@ -61,10 +68,6 @@ public class GameController {
 
     public PieceMove getLegalMove(int row, int col) {
         return this.legalMoves.stream().filter(move -> move.getRowPos() == row && move.getColumnPos() == col).findFirst().orElse(null);
-    }
-
-    public boolean isLegalMove(PieceMove pieceMove, Piece piece) {
-        return this.legalMoves.stream().anyMatch(move -> (move.getColumnPos() == pieceMove.getColumnPos() && move.getRowPos() == pieceMove.getRowPos()));
     }
 
     public boolean isPawnPromoted(Pawn pawn) {

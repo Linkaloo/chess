@@ -45,11 +45,12 @@ public class King extends Piece {
         this.initialMove = initialMove;
     }
 
-    @Override
-    public List<PieceMove> getLegalMoves(Board board) {
-        List<PieceMove> possibleMoves = getPossibleMoves(board);
-        possibleMoves.removeIf(pieceMove -> pieceMove instanceof TakePieceMove && pieceMove.getCurrPiece().getPieceColor() == ((TakePieceMove) pieceMove).getTakePiece().getPieceColor());
-        return possibleMoves;
+    public void setIsInCheck(boolean inCheck) {
+        isInCheck = inCheck;
+    }
+
+    public boolean getInCheck() {
+        return isInCheck;
     }
 
     @Override
@@ -75,6 +76,7 @@ public class King extends Piece {
         List<PieceMove> oppositePiecesCheckingMoves = new ArrayList<>();
         List<PieceMove> possibleMoves = new ArrayList<>();
 
+        // obtains all opponent pieces moves that intersect with the kings moves
         for (Piece piece: oppositePieces) {
             List<PieceMove> oppPieceLegalMoves = piece.getAllPossibleMoves(board);
             for (PieceMove oppPieceMove: oppPieceLegalMoves){
@@ -94,6 +96,7 @@ public class King extends Piece {
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos + 1, rowPos, this), oppositePiecesCheckingMoves, board));
         possibleMoves.add(getPossibleMove(new PieceMove(columnPos - 1, rowPos, this), oppositePiecesCheckingMoves, board));
 
+        // castling moves
         if(initialMove && !isInCheck) {
             possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos + 2, rowPos, this, board.getCastlingRook(columnPos + 3, pieceColor)), oppositePiecesCheckingMoves, board));
             possibleMoves.add(getPossibleMove(new CastlingPieceMove(columnPos - 2, rowPos, this, board.getCastlingRook(columnPos - 4, pieceColor)), oppositePiecesCheckingMoves, board));
@@ -110,10 +113,10 @@ public class King extends Piece {
 
         if(testMove.getColumnPos() >= 0 && testMove.getColumnPos() <= 7 && testMove.getRowPos() >= 0 && testMove.getRowPos() <= 7) {
             if (!oppPiecesMoves.contains(testMove) && tempBoardPiece == null)
-                if(testMove instanceof CastlingPieceMove && !validCastle(testMove, oppPiecesMoves))
+                if(testMove instanceof CastlingPieceMove && !validCastle(testMove, oppPiecesMoves, board))
                     return null;
                 else
-                    return testMove;
+                    return testMove; // returns either normal piece move or castling piece move, if valid
             else if(!oppPiecesMoves.contains(testMove) && tempBoardPiece != null)
                 return new TakePieceMove(testMove.getColumnPos(), testMove.getRowPos(), this, tempBoardPiece);
             else
@@ -123,7 +126,8 @@ public class King extends Piece {
             return null;
     }
 
-    private boolean validCastle(PieceMove testMove, List<PieceMove> oppPiecesMoves) {
-        return !((testMove.getColumnPos() == columnPos + 2 && oppPiecesMoves.contains(new PieceMove(columnPos + 1, rowPos))) || (testMove.getColumnPos() == columnPos - 2 && oppPiecesMoves.contains(new PieceMove(columnPos - 1, rowPos))));
+    private boolean validCastle(PieceMove testMove, List<PieceMove> oppPiecesMoves, Board board) {
+        return (((testMove.getColumnPos() == columnPos + 2 && !(oppPiecesMoves.contains(new PieceMove(columnPos + 1, rowPos)) || (board.getPieceOnBoard(columnPos + 1, rowPos) != null)))
+                || (testMove.getColumnPos() == columnPos - 2 && !(oppPiecesMoves.contains(new PieceMove(columnPos - 1, rowPos)) ||  (board.getPieceOnBoard(columnPos - 1, rowPos)) != null))));
     }
 }
