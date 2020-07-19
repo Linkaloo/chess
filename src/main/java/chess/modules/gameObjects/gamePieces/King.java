@@ -127,7 +127,7 @@ public class King extends Piece {
     }
 
     private boolean validCastle(PieceMove testMove, List<PieceMove> oppPiecesMoves, Board board) {
-        return (((testMove.getColumnPos() == columnPos + 2 && !(oppPiecesMoves.contains(new PieceMove(columnPos + 1, rowPos)) || (board.getPieceOnBoard(columnPos + 1, rowPos) != null)))
-                || (testMove.getColumnPos() == columnPos - 2 && !(oppPiecesMoves.contains(new PieceMove(columnPos - 1, rowPos)) ||  (board.getPieceOnBoard(columnPos - 1, rowPos)) != null))));
+        return (((testMove instanceof CastlingPieceMove && testMove.getColumnPos() == columnPos + 2 && ((CastlingPieceMove) testMove).getOwnRook() != null && !(oppPiecesMoves.contains(new PieceMove(columnPos + 1, rowPos)) || (board.getPieceOnBoard(columnPos + 1, rowPos) != null)))
+                || (testMove instanceof CastlingPieceMove && testMove.getColumnPos() == columnPos - 2 && ((CastlingPieceMove) testMove).getOwnRook() != null && !(oppPiecesMoves.contains(new PieceMove(columnPos - 1, rowPos)) ||  (board.getPieceOnBoard(columnPos - 1, rowPos)) != null))));
     }
 }

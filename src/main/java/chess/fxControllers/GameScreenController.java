@@ -7,16 +7,24 @@ import chess.modules.gameObjects.pieceMove.CastlingPieceMove;
 import chess.modules.gameObjects.pieceMove.EnPassantPieceMove;
 import chess.modules.gameObjects.pieceMove.PieceMove;
 import chess.modules.gameObjects.pieceMove.TakePieceMove;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GameScreenController {
@@ -32,10 +40,37 @@ public class GameScreenController {
     @FXML
     private GridPane boardGrid;
 
+    @FXML
+    private Pane endingPane;
+
+    @FXML
+    private Text endingText;
+
 
     public void initialize() {
         board = new Board(boardGrid);
         gameController = new GameController(board);
+    }
+
+    @FXML
+    public void playAgain(ActionEvent event) throws IOException {
+        Parent gameMenuParent = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("gameSetup.fxml")));
+        Scene gameMenuScene = new Scene(gameMenuParent);
+
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(gameMenuScene);
+        window.show();
+
+    }
+
+    @FXML
+    public void returnToMainMenu(ActionEvent event) throws IOException {
+        Parent gameMenuParent = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("menu.fxml")));
+        Scene gameMenuScene = new Scene(gameMenuParent);
+
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(gameMenuScene);
+        window.show();
     }
 
     public void mousePressed(MouseEvent mouseEvent) {
@@ -142,6 +177,7 @@ public class GameScreenController {
             resetBoard();
 
         gameController.updateKingInCheck(currPiece);
+        endGameCheck(currPiece);
     }
 
     private void handleCastling(Piece currPiece, PieceMove pieceMove) {
@@ -187,6 +223,19 @@ public class GameScreenController {
             highlightPanes(highlightedPanes.toArray(new Pane[]{}));
             isPawnPromoting = true;
             this.currPiece = currPiece;
+        }
+    }
+
+    private void endGameCheck(Piece currPiece) {
+        King oppKing = board.getOppKing(currPiece.getPieceColor());
+        boolean checkMate = gameController.isCheckMate(oppKing) ;
+        boolean draw = gameController.isDraw(oppKing);
+        String endText = gameController.winnerText(checkMate, draw, oppKing);
+
+        if(checkMate || draw) {
+            endingPane.setDisable(false);
+            endingPane.setVisible(true);
+            endingText.setText(endText);
         }
     }
 

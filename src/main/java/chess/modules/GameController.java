@@ -50,6 +50,43 @@ public class GameController {
         oppKing.setIsInCheck(movedPieceLegalMoves.contains(new PieceMove(oppKing.getColumnPos(), oppKing.getRowPos())));
     }
 
+    public boolean isCheckMate(King oppKing) {
+        List<Piece> oppPieces = board.getAllColoredPieces(oppKing.getPieceColor());
+        int legalMovesSize = 0;
+
+        for (Piece piece: oppPieces) {
+            if(piece.getLegalMoves(board).size() > 0)
+                legalMovesSize += piece.getLegalMoves(board).size();
+        }
+
+        return (oppKing.getInCheck() && legalMovesSize == 0);
+    }
+
+    public String winnerText(boolean checkMate, boolean draw, King oppKing) {
+        if(checkMate && oppKing.getPieceColor() == PieceColor.WHITE) {
+            return "Black Wins!";
+        }
+        else if (checkMate && oppKing.getPieceColor() == PieceColor.BLACK) {
+            return "White Wins!";
+        }
+        else if (draw) {
+            return "Stalemate";
+        }
+        return null;
+    }
+
+    public boolean isDraw(King oppKing) {
+        List<Piece> oppPieces = board.getAllColoredPieces(oppKing.getPieceColor());
+        int legalMovesSize = 0;
+
+        for (Piece piece: oppPieces) {
+            if(piece.getLegalMoves(board).size() > 0)
+                legalMovesSize += piece.getLegalMoves(board).size();
+        }
+
+        return (!oppKing.getInCheck() && legalMovesSize == 0);
+    }
+
     public void updatePawnsEnpassant() {
         if(playersMove % 2 == 0) {
             List<Pawn> whitePawns = board.getPawns(PieceColor.WHITE);
